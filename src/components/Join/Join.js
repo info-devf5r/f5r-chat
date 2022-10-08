@@ -131,7 +131,7 @@ const Join = ({location}) => {
     <div className="joinOuterContainer bgprime">      
       <div className="joinInnerContainer bgsec">
         <img className="bookIcon" src={readingBook} alt="."></img>
-        <h1 className="chatHeading" onClick={()=>{setState(2)}}> Study Room </h1>
+        <h1 className="chatHeading" onClick={()=>{setState(2)}}> غرفة الدراسة </h1>
         <div className="belowHeading"> 
           {getAppropriateComponent(state)}
         </div>
