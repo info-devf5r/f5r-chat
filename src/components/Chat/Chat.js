@@ -45,7 +45,7 @@ const Chat = ({ location })=> {
     const alert = useAlert();
     
     // Server websocket endpoint 
-  //  const ENDPOINT = process.env.REACT_APP_API_ENDPOINT;   
+    const ENDPOINT = 'https://voice-f5r-server.herokuapp.com';   
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
