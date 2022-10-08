@@ -123,7 +123,7 @@ const Chat = ({ location })=> {
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
-                alert.error("Such room doesn't exist or expired");
+                alert.error("هذه الغرفة غير موجودة أو منتهية الصلاحية");
                 history.push("/");
             }
         }
