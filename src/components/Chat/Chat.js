@@ -101,8 +101,8 @@ const Chat = ({ location })=> {
     const [ usersInVoice, setUsersInVoice ] = useState([]); 
     const history = useHistory();
     const alert = useAlert();
-    //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // the express server 
-    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_REAL; // my deployed server 
+    //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // الخادم السريع 
+    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_REAL; // خادمي المنشور 
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
