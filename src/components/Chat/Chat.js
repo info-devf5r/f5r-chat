@@ -6,7 +6,7 @@ import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input"; 
 import Messages from "../Messages/Messages";
 
-// Right side components
+//مكونات الجانب الأيمن
 import InfoBarRight from "../rightSideComponents/InfobarRight/InfoBarRight"
 import People from "../rightSideComponents/People/People"; 
 import Voice from "../rightSideComponents/Voice/Voice"
@@ -27,7 +27,7 @@ function stopBothVideoAndAudio(stream) {
 }
 let cred = null; 
 
-// STUN/TURN servers for voice channel 
+//خوادم STUN / TURN للقناة الصوتية 
 const setCredObj = (twilioObj) => {
     cred = {
         config : {
@@ -61,7 +61,7 @@ const setCredObj = (twilioObj) => {
             credential: 'webrtc',
             username: 'webrtc'
         },  
-        //remove the below three objects if you are running locally without twilio 
+        //قم بإزالة العناصر الثلاثة أدناه إذا كنت تعمل محليًا بدون twilio 
         {
             url: 'turn:global.turn.twilio.com:3478?transport=udp',
             username : twilioObj.username,
@@ -116,7 +116,7 @@ const Chat = ({ location })=> {
             //console.log(cred); 
         });
         
-        return () => { //component unmounting 
+        return () => { //تركيب المكون
             socket.emit('leave-voice',{name,room},() => {});
             socket.emit('disconnect');
             socket.off(); 
@@ -129,7 +129,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            //console.log(users); 
+            console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
@@ -142,7 +142,7 @@ const Chat = ({ location })=> {
         socket.on('remove-from-voice',(user)=>{
             setUsersInVoice( usersInVoice =>usersInVoice.filter((x) => x.id !== user.id )); 
         });
-    },[]); // for received message 
+    },[]); // للرسالة المستلمة 
 
     const onReceiveAudioStream = (stream) =>{ 
         console.log("receiving an audio stream"); 
@@ -164,7 +164,7 @@ const Chat = ({ location })=> {
                 peer = new Peer(socket.id, cred);  
                 console.log("Peer:", peer);
                 
-                //listen 
+                //استمع 
                 peer.on('call', (call)=>{
                     console.log("call receiving")
                     call.answer(mystream); 
@@ -173,18 +173,18 @@ const Chat = ({ location })=> {
                         receivedCalls.push(stream); 
                     });
                 });
-                //console.log(usersInVoice); 
+                console.log(usersInVoice); 
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
-                    // won't call myself 
+                    //لن اتصل بنفسي
                     const otherUsersInVoice = (usersInVoice).filter((x) => x.id !== socket.id);  
                     
-                    peers = (otherUsersInVoice).map((u) => {  // usersInVoice affects this 
-                        //call everyone already present 
+                    peers = (otherUsersInVoice).map((u) => {  // يؤثر مستخدمو In Voice على هذا 
+                        //اتصل بالجميع الموجودين بالفعل
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        //console.log(mediaConnection); 
+                        console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
@@ -195,7 +195,7 @@ const Chat = ({ location })=> {
                             })
                         });
 
-                        // if anyone closes media connection 
+                        // إذا قام أي شخص بإغلاق اتصال الوسائط
                         mediaConnection.on('close',()=>{
                             audio.remove();
                         })
@@ -211,9 +211,9 @@ const Chat = ({ location })=> {
         
         return ()=> {
 
-            //close my audio 
+            //أغلق صوتي
             if(myStream) stopBothVideoAndAudio(myStream); 
-            //close the calls i received
+            //أغلق المكالمات التي تلقيتها
             receivedCalls.forEach((stream) => stopBothVideoAndAudio(stream));
             
             if(peer) {  
@@ -221,7 +221,7 @@ const Chat = ({ location })=> {
                 myStream = null; 
                 console.log("disconnected"); 
 
-                //close the connections I called 
+                //أغلق الاتصالات التي اتصلت بها
                 if(peers) { 
                     peers.forEach((x)=>{
                         x.close();  
@@ -234,9 +234,9 @@ const Chat = ({ location })=> {
     },[join]); 
     
 
-    //need function for sending messages 
+    //تحتاج وظيفة لإرسال الرسائل
     const sendMessage = (event) => { 
-        event.preventDefault(); // prevents from refreshing browser, form submit reloads the page  
+        event.preventDefault(); // يمنع من تحديث المتصفح ، إرسال النموذج يعيد تحميل الصفحة 
         if(messageToSend) {
             socket.emit('user-message',messageToSend,()=>setMessage('')); 
         }

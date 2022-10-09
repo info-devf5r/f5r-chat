@@ -43,23 +43,23 @@ const Join = () => {
           Sign In
         </button>
       </Link>
-      <p className="helpbutton" onClick={ toggle }> Help / How to use </p>
+      <p className="helpbutton" onClick={ toggle }> مساعدة / كيفية الاستخدام</p>
   </div>)
   }
 
   const InfoComponent = ()=> {
     return (<div className="helptext ">
       <p> 
-        <u>How to use</u> : Choose a unique room ID by yourself and share with your friends.
-        Join the room and study together using text and voice channels. 
-        No registration required. 
+        <u>كيف تستعمل</u>: اختر معرّف غرفة فريدًا بنفسك وشاركه مع أصدقائك.
+        انضموا إلى الغرفة وادرسوا معًا باستخدام القنوات النصية والصوتية.
+        لا يتطلب التسجيل.
       </p> 
       <p>
-        <u>Info</u> : The application aims to put text and voice channels on the same page, so 
-        that collaboration with friends while studying becomes easy. 
+        <u>Info</u>: يهدف التطبيق إلى وضع القنوات النصية والصوتية على نفس الصفحة لذا
+        يصبح هذا التعاون مع الأصدقاء أثناء الدراسة أمرًا سهلاً. 
       </p>
       <div style={ {display:"flex", justifyContent:"space-between" }}> 
-        <a style={{ color:"grey" }} target="blank" href="https://www.linkedin.com/in/sudheer-tripathi-384239147/"> Meet me here </a>
+        <a style={{ color:"grey" }} target="blank" href="http://devf5r.com/">قابلني هنا </a>
         <span onClick={toggle} style={{ marginRight:0, color:"#7289dA"}}> <u> Back</u> </span>
       </div>
     </div>)
