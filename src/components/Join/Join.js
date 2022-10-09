@@ -68,7 +68,7 @@ const Join = () => {
     <div className="joinOuterContainer bgprime">      
       <img className="bookIcon" src={readingBook} alt="."></img>
       <div className="joinInnerContainer bgsec">
-        <h1 className="chatHeading"> Study Room </h1>
+        <h1 className="chatHeading">F5R2CHAT</h1>
         { viewInfo ? ( <InfoComponent /> ) : <FormComponent /> }
       </div>
     </div>
