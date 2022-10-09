@@ -20,7 +20,7 @@ const GenerateRoom = ({toggle}) => {
 
     useEffect(()=>{
         const getRoomId = async () =>{ 
-            let result = await axios.get(`https://voice-f5r-server.herokuapp.com/generateRoomId`); 
+            let result = await axios.get(`https://f5r-chat-server.herokuapp.com/generateRoomId`); 
             setRoomId(result.data.roomId); 
             setState(2);
             return result; 
