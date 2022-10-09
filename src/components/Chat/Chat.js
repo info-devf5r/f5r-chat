@@ -1,18 +1,21 @@
 import React, { useState,useEffect } from "react";
+import { useHistory } from "react-router-dom"; 
 import queryString from "query-string";
 import io from 'socket.io-client';
 import "./Chat.css";
+import { iceServerConfig } from "../../config/iceServers";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input"; 
 import Messages from "../Messages/Messages";
+import { useAlert } from "react-alert";
 
-//مكونات الجانب الأيمن
+// Right side components
 import InfoBarRight from "../rightSideComponents/InfobarRight/InfoBarRight"
 import People from "../rightSideComponents/People/People"; 
 import Voice from "../rightSideComponents/Voice/Voice"
 
 import Peer from "peerjs"; 
-//import { cred } from "../../config/callcred"; 
+const axios = require("axios");
 
 const getAudio = () =>{
      return navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -25,66 +28,8 @@ function stopBothVideoAndAudio(stream) {
         }
     });
 }
-let cred = null; 
 
-//خوادم STUN / TURN للقناة الصوتية 
-const setCredObj = (twilioObj) => {
-    cred = {
-        config : {
-        'iceServers' : [
-        {
-            url: 'stun:global.stun.twilio.com:3478?transport=udp',
-            urls: 'stun:global.stun.twilio.com:3478?transport=udp'
-        },
-        {
-            url: 'turn:numb.viagenie.ca',
-            credential: 'muazkh',
-            username: 'webrtc@live.com'
-        },
-        {
-            url: 'turn:192.158.29.39:3478?transport=udp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        },
-        {
-            url: 'turn:192.158.29.39:3478?transport=tcp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        },
-        {
-            url: 'turn:turn.bistri.com:80',
-            credential: 'homeo',
-            username: 'homeo'
-        },
-        {
-            url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc'
-        },  
-        //قم بإزالة العناصر الثلاثة أدناه إذا كنت تعمل محليًا بدون twilio 
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=udp',
-            username : twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            username: twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:443?transport=tcp',
-            username:twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:443?transport=tcp',
-            credential: twilioObj.cred
-        }
-        ]} 
-    };
-}
-
-let socket = null, peer = null, peers = [], myStream = null, receivedCalls = [];  
+let cred = null, socket = null, peer = null, peers = [], myStream = null, receivedCalls = [];  
 
 const Chat = ({ location })=> { 
 
@@ -96,32 +41,44 @@ const Chat = ({ location })=> {
 
     const [ join,setJoin ] = useState(0); 
     const [ usersInVoice, setUsersInVoice ] = useState([]); 
-     
-
-    //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_SERVER;   // the express server 
-    //const ENDPOINT = "https://116.88.240.174:5000" //process.env.REACT_APP_API_ENDPOINT_REAL; // my deployed server 
-    const ENDPOINT =  "https://f5r-chat-server.herokuapp.com/"
-
+    const history = useHistory();
+    const alert = useAlert();
+    
+    // Server websocket endpoint 
+    const ENDPOINT = "https://f5r-chat-server.herokuapp.com/"   
+    
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
         socket = io(ENDPOINT, { transport : ['websocket'] });
         setName(name.trim().toLowerCase()); 
         setRoom(room.trim().toLowerCase());
-        // setName(name);
-        // setRoom(room); 
-
-        socket.emit('join',{name,room},(result)=>{
-            console.log(`You are ${name} with id ${socket.id}`); 
-            setCredObj(result); 
-            //console.log(cred); 
-        });
+         
+        const connectNow = () => {
+            socket.emit('join',{name,room},(result)=>{
+                console.log(`You are ${name} with id ${socket.id}`); 
+                cred = iceServerConfig(result); 
+                console.log("CRED SET", cred)
+            });
+        }
         
-        return () => { //تركيب المكون
+        const checkRoomExists = async() =>{
+            let result = await axios.get(`https://f5r-chat-server.herokuapp.com/checkRoomExists/${room}`); 
+            if(result.data && result.data.exists){
+                connectNow(); 
+            } else {
+                alert.error("Such room doesn't exist or expired");
+                history.push("/");
+            }
+        }
+
+        checkRoomExists();
+
+        return () => { //component unmounting 
             socket.emit('leave-voice',{name,room},() => {});
             socket.emit('disconnect');
             socket.off(); 
         }
-    },[ENDPOINT,location.search]); //[ENDPOINT,location.search]);  
+    },[ENDPOINT,location.search,history,alert]); //[ENDPOINT,location.search]);  
 
     
     useEffect(()=>{
@@ -129,7 +86,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            console.log(users); 
+            //console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
@@ -142,7 +99,7 @@ const Chat = ({ location })=> {
         socket.on('remove-from-voice',(user)=>{
             setUsersInVoice( usersInVoice =>usersInVoice.filter((x) => x.id !== user.id )); 
         });
-    },[]); // للرسالة المستلمة 
+    },[]); // for received message 
 
     const onReceiveAudioStream = (stream) =>{ 
         console.log("receiving an audio stream"); 
@@ -164,7 +121,7 @@ const Chat = ({ location })=> {
                 peer = new Peer(socket.id, cred);  
                 console.log("Peer:", peer);
                 
-                //استمع 
+                //listen 
                 peer.on('call', (call)=>{
                     console.log("call receiving")
                     call.answer(mystream); 
@@ -173,18 +130,18 @@ const Chat = ({ location })=> {
                         receivedCalls.push(stream); 
                     });
                 });
-                console.log(usersInVoice); 
+                //console.log(usersInVoice); 
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
-                    //لن اتصل بنفسي
+                    // won't call myself 
                     const otherUsersInVoice = (usersInVoice).filter((x) => x.id !== socket.id);  
                     
-                    peers = (otherUsersInVoice).map((u) => {  // يؤثر مستخدمو In Voice على هذا 
-                        //اتصل بالجميع الموجودين بالفعل
+                    peers = (otherUsersInVoice).map((u) => {  // usersInVoice affects this 
+                        //call everyone already present 
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        console.log(mediaConnection); 
+                        //console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
@@ -195,7 +152,7 @@ const Chat = ({ location })=> {
                             })
                         });
 
-                        // إذا قام أي شخص بإغلاق اتصال الوسائط
+                        // if anyone closes media connection 
                         mediaConnection.on('close',()=>{
                             audio.remove();
                         })
@@ -211,9 +168,9 @@ const Chat = ({ location })=> {
         
         return ()=> {
 
-            //أغلق صوتي
+            //close my audio 
             if(myStream) stopBothVideoAndAudio(myStream); 
-            //أغلق المكالمات التي تلقيتها
+            //close the calls i received
             receivedCalls.forEach((stream) => stopBothVideoAndAudio(stream));
             
             if(peer) {  
@@ -221,7 +178,7 @@ const Chat = ({ location })=> {
                 myStream = null; 
                 console.log("disconnected"); 
 
-                //أغلق الاتصالات التي اتصلت بها
+                //close the connections I called 
                 if(peers) { 
                     peers.forEach((x)=>{
                         x.close();  
@@ -234,9 +191,9 @@ const Chat = ({ location })=> {
     },[join]); 
     
 
-    //تحتاج وظيفة لإرسال الرسائل
+    //need function for sending messages 
     const sendMessage = (event) => { 
-        event.preventDefault(); // يمنع من تحديث المتصفح ، إرسال النموذج يعيد تحميل الصفحة 
+        event.preventDefault(); // prevents from refreshing browser, form submit reloads the page  
         if(messageToSend) {
             socket.emit('user-message',messageToSend,()=>setMessage('')); 
         }
