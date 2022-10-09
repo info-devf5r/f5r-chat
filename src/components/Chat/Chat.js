@@ -45,7 +45,7 @@ const Chat = ({ location })=> {
     const alert = useAlert();
     
     // Server websocket endpoint 
-    const ENDPOINT = "https://f5r-chat-server.herokuapp.com/"   
+    const ENDPOINT = "https://voice-f5r-server.herokuapp.com/"   
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
@@ -62,7 +62,7 @@ const Chat = ({ location })=> {
         }
         
         const checkRoomExists = async() =>{
-            let result = await axios.get(`https://f5r-chat-server.herokuapp.com/checkRoomExists/${room}`); 
+            let result = await axios.get(`https://voice-f5r-server.herokuapp.com/${room}`); 
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
