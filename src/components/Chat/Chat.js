@@ -63,25 +63,6 @@ const setCredObj = (twilioObj) => {
             url: 'turn:turn.anyfirewall.com:443?transport=tcp',
             credential: 'webrtc',
             username: 'webrtc'
-        },  
-        //remove the below three objects if you are running locally without twilio 
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=udp',
-            username : twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            username: twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:443?transport=tcp',
-            username:twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:443?transport=tcp',
-            credential: twilioObj.cred
         }
         ]} 
     };
@@ -114,7 +95,7 @@ const Chat = ({ location })=> {
             socket.emit('join',{name,room},(result)=>{
                 console.log(`You are ${name} with id ${socket.id}`); 
                 setCredObj(result); 
-                //console.log(cred); 
+                console.log(cred); 
             });
         }
         
@@ -123,7 +104,7 @@ const Chat = ({ location })=> {
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
-                alert.error("Such room doesn't exist or expired");
+                alert.error("هذه الغرفة غير موجودة أو منتهية الصلاحية");
                 history.push("/");
             }
         }
@@ -143,7 +124,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            //console.log(users); 
+            console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
