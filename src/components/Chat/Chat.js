@@ -268,6 +268,8 @@ const Chat = ({ location })=> {
      
     return (
         <div className="outerContainer bgprime">
+		 <People usersOnline={usersInVoice} isVoice={true}/> 
+
             <div className="container bgsec">
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
@@ -281,9 +283,6 @@ const Chat = ({ location })=> {
                 <div className="container-up bgsec">
                     <InfoBarRight/> 
                     <People usersOnline={usersOnline} isVoice={false}/> 
-                </div>
-                <div className="container-down bgsec">  
-                    <People usersOnline={usersInVoice} isVoice={true}/> 
                 </div>
             </div>
             
