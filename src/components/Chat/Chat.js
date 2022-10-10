@@ -267,12 +267,13 @@ const Chat = ({ location })=> {
     
      
     return (
-            <div className="container bgsec">
+        <div className="outerContainer bgprime">
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
                 <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
                 <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
-            </div>        
+        </div>
+        
     ); 
 }
 
