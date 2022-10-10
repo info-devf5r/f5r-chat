@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-			crossorigin="anonymous"
-		/>
-		<link rel="stylesheet" href="css/style.css" />
-		<title>Chatify App</title>
-	</head>
-	<body>
-		<div class="join-container">
-			<header class="join-header" style="border-style: solid;border-color: white;">
-				<h1 style="color:white"><i class="fas fa-comment"></i> Chatify</h1>
-			</header>
-			<main class="join-main">
-				<form  action = "/validate" method="POST">
-					<div class="form-control">
-						<label for="username">Username</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
-							required
-						/>
-					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room">
-							<option value="Cyber Security">CyberSecurity</option>
-							<option value="Algorithms">Algorithms</option>
-							<option value="Data Science">DataScience</option>
-							<option value="Operating Systems">OperatingSystem</option>
-							<option value="Artificial Intelligence">Artificial Intelligence</option>
-							<option value="Software Engineering">Software Engineering</option>
-						</select>
-					</div>
-					<div class="form-control">
-							<div class="key">
-							<label for="key">Room Security Key</label>
-							<input type="password" placeholder="Enter Room Security Key..." name="key" id="key" style="width:420px;height:40px;margin-top: 3px;">
-							</input>
-							</div>
-					</div>
-					<button type="submit" class="btn">Join Chat</button>
-				</form>
-			</main>
-		</div>
-	</body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="assets/CSS/index.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <title>FluxIM</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><b>Flux IM</b></a>
+      <div id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="home-container">
+    <header class="home-header">
+      <h1>Flux IM</h1>
+    </header>
+    <main class="home-main">
+      <form class="login">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <br>
+          <input id="username" type="text" placeholder="Username">
+        </div>
+        <div class="form-group mt-3">
+          <label for="password">Password:</label>
+          <br>
+          <input id="password" type="password" placeholder="Password">
+        </div>
+      </form>
+      <button onClick="login()" type="submit" class="btn btn-info">Login</button>
+    </main>
+    <div id='errorBox' class="alert alert-danger d-none">Sorry! Your login was invalid!</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+  <script src="assets/JavaScript/index.js"></script>
+</body>
+
 </html>

@@ -1,64 +1,117 @@
-# End To End Encrypted Secure Chat Application
-> This is a secure chat application made using node and socket.io
-<!-- > Live demo [_here_](https://www.example.com). If you have the project hosted somewhere, include the link here. -->
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
+# Flux-IM
+
+## Try out our web application:
+https://flux-im.herokuapp.com/
+
+---
+
+## Description
+A light weighted chat room application ultilizing the power of Socket.IO and MVC design pattern. Flux-IM utilizes a basic user login system to remember customizable user information, such as avatars and usernames.
+
+---
+
+## Technology Used
+* __Core:__
+    * Socket.io
+* __Front End:__
+    * HTML 5
+    * CSS 3
+    * Javascript
+    * jQuery
+    * Ajax
+    * Bootstrap 5
+* __Back End:__
+    * Node.js
+    * Express.js
+    * RESTful API
+* __Relational Database:__
+    * MySQL
+* __Unit Test__
+    * Macha.js
+    * Chai.js
+* __Deployment__
+    * Heroku
+* __Coding Standard__
+    * ESlint
+
+---
 
 ## Table of Contents
-* [General Info](#general-information)
-* [Technologies Used](#technologies-used)
-* [Features](#features)
-* [Screenshots](#screenshots)
-* [Setup](#setup)
+* [Installation](#installation)
 * [Usage](#usage)
-* [Project Status](#project-status)
 * [Contact](#contact)
-<!-- * [License](#license) -->
+* [License](#license)
+---
 
 
-## General Information
-- With continuously increasing technology, as well as new chating applications emerging every now and then, we wanted to learn about security aspects of these applications and also about the cryptographic encryption and decryption processes
-- This app has different rooms for different subjects and users can log into these rooms with passwords and chat with each other securely and in realtime
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+## Installation
+To insall the application locally, type the following in command-line tool:
+```bash
+npm install
+```
 
+---
 
-## Technologies Used
-- Node, Express
-- HTML/CSS/Bootstrap
-- MongoDB
-- Socket.io
+## Configure MySQL Database Locally
 
-## Features
-- This project uses socket.io for real time end to end encryption
-- App has different rooms as per the subjects and users can chat in these rooms in real time
-- Cryptographic implementations for storing passwords as well as end to end encryption
+Inside main directory, you will find a folder named `db`.
 
+   * Make sure you're in the `db` folder of your app.
 
-## Screenshots
-![Screenshot 1](./Screenshots/1.png)
-![Screenshot 2](./Screenshots/2.png)
-<!-- If you have screenshots you'd like to share, include them here. -->
+   * Start MySQL command line tool and login: `mysql -u root -p`.
 
+   * With the `mysql>` command line tool running, enter the command `source schema.sql`. This will run your schema file and all of the queries in it -- in other words, you'll be creating your database.
 
-## Setup
-MongoDB server should be started at port 27017
-Initialize npm to download required files
+   * Now insert the entries you defined in `seeds.sql` by running the file: `source seeds.sql`.
 
+   * Close out of the MySQL command line tool: `exit`.
+
+---
 
 ## Usage
-After setup,
-`node server.js` does the work.
+To start the application, type the following in command-line tool:
+```bash
+npm start
+```
+then navigate to http://localhost:8080 in any browser to view the app.
 
+<img src="./screenshots/login.png" alt="homepage"  />
 
-## Project Status
-Project is: _Complete_ 
+In the login screen, you can either sign up to create your own login information or use the existing testing login infromation:
+```
+User Name: guest
+Password: guest
+```
 
+<img src="./screenshots/signup.png" alt="sign up"  />
 
+This is the sign up screen, fill all the inform and your account will be created!
 
-## Contact
-Created by [Shriram Pareek](https://github.com/Shrirampareek888), [Kishan Partani](https://github.com/KishanPartani), [Tejas Pradhan](https://github.com/tejaspradhan), [Aditya Pangaonkar](https://github.com/Adi306) and [Balaji Padamwar](https://github.com/balaji1608) - feel free to contact us!
+<img src="./screenshots/roomlist.png" alt="room list"  />
 
+After you logged into the application, choose a room to start conversation or just create a new one!
 
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
+<img src="./screenshots/chatroom.png" alt="chatroom"  />
 
-<!-- You don't have to include all sections - just the one's relevant to your project -->
+Switch to any other rooms you want by clicking on them on the left side! See who is online on the right and meet more interesting people.
+
+---
+
+## Team Members
+* __Chang Xiao__ - Project Manager, visit his [GitHub](https://github.com/sinsinkun)
+* __Sam Kim__ - Full Stack Developer, visit his [GitHub](https://github.com/TalkingSkunk)
+* __Micheal Wong__ - Front End Developer, visit his [GitHub](https://github.com/Mwong228)
+* __Tong (Richard) Yang__ - Back End Developer/DevOps, visit his [GitHub](https://github.com/Dragontalker)
+
+---
+
+## License
+Copyright (c) [2021] [ISC, __Team Flux Capacitor__]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
