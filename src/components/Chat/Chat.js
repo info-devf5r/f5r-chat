@@ -102,7 +102,7 @@ const Chat = ({ location })=> {
     const history = useHistory();
     const alert = useAlert();
     //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // the express server 
-    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_REAL; // my deployed server 
+    const ENDPOINT = "https://f5r-2.herokuapp.com"; // my deployed server 
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
@@ -119,7 +119,7 @@ const Chat = ({ location })=> {
         }
         
         const checkRoomExists = async() =>{
-            let result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT_REAL}/checkRoomExists/${room}`); 
+            let result = await axios.get(`https://f5r-2.herokuapp.com/checkRoomExists/${room}`); 
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
