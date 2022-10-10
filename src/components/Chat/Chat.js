@@ -102,7 +102,6 @@ const Chat = ({ location })=> {
     const history = useHistory();
     const alert = useAlert();
     //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // the express server 
-    const ENDPOINT = "https://f5r-2.herokuapp.com"; // خادمي المنشور
     const ENDPOINT = "https://voice-f5r-server.herokuapp.com"; // خادمي المنشور
     
     useEffect(() => {
