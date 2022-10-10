@@ -271,8 +271,8 @@ const Chat = ({ location })=> {
             <div className="container bgsec">
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
-                <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
-                <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
+                <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
+                 
             </div>
         </div>
         
