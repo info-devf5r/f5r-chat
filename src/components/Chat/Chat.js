@@ -119,7 +119,7 @@ const Chat = ({ location })=> {
         }
         
         const checkRoomExists = async() =>{
-            let result = await axios.get(`https://f5r-2.herokuapp.com/checkRoomExists/${room}`); 
+            let result = await axios.get(`https://voice-f5r-server.herokuapp.com/checkRoomExists/${room}`); 
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
