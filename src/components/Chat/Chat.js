@@ -271,9 +271,7 @@ const Chat = ({ location })=> {
             <div className="container bgsec">
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
-                <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
-                    <People usersOnline={usersInVoice} isVoice={true}/> 
-                    <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
+                <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend}joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin} /> 
             </div>
             <div className="inMobile bgsec">
                     ...scoll down for more
@@ -282,8 +280,9 @@ const Chat = ({ location })=> {
                 <div className="container-up bgsec">
                     <InfoBarRight/> 
                     <People usersOnline={usersOnline} isVoice={false}/> 
-                </div>
+					<People usersOnline={usersInVoice} isVoice={true}/> 
 
+                </div>
             </div>
             
         </div>
