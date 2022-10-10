@@ -1,0 +1,28 @@
+{
+  "name": "chat-rooms-voice",
+  "version": "1.0.0",
+  "description": "chat-rooms",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0"
+  },
+  "engines": {
+    "node": "10.15.1",
+    "npm": "6.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "index.js",
+    "dev": "concurrently \"nodemon index.js\" \"cd client && npm start\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "author": "",
+  "license": "ISC"
+}
