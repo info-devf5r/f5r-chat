@@ -268,22 +268,12 @@ const Chat = ({ location })=> {
      
     return (
         <div className="outerContainer bgprime">
-		 <People usersOnline={usersInVoice} isVoice={true}/> 
-
             <div className="container bgsec">
+                <People usersOnline={usersInVoice} isVoice={true}/> 
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
                 <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
                 <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
-            </div>
-            <div className="inMobile bgsec">
-                    ...scoll down for more
-            </div>
-            <div className="container-right">
-                <div className="container-up bgsec">
-                    <InfoBarRight/> 
-                    <People usersOnline={usersOnline} isVoice={false}/> 
-                </div>
             </div>
             
         </div>
