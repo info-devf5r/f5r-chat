@@ -63,6 +63,25 @@ const setCredObj = (twilioObj) => {
             url: 'turn:turn.anyfirewall.com:443?transport=tcp',
             credential: 'webrtc',
             username: 'webrtc'
+        },  
+        //remove the below three objects if you are running locally without twilio 
+        {
+            url: 'turn:global.turn.twilio.com:3478?transport=udp',
+            username : twilioObj.username,
+            urls: 'turn:global.turn.twilio.com:3478?transport=udp',
+            credential: twilioObj.cred
+        },
+        {
+            url: 'turn:global.turn.twilio.com:3478?transport=tcp',
+            username: twilioObj.username,
+            urls: 'turn:global.turn.twilio.com:3478?transport=tcp',
+            credential: twilioObj.cred
+        },
+        {
+            url: 'turn:global.turn.twilio.com:443?transport=tcp',
+            username:twilioObj.username,
+            urls: 'turn:global.turn.twilio.com:443?transport=tcp',
+            credential: twilioObj.cred
         }
         ]} 
     };
@@ -95,7 +114,7 @@ const Chat = ({ location })=> {
             socket.emit('join',{name,room},(result)=>{
                 console.log(`You are ${name} with id ${socket.id}`); 
                 setCredObj(result); 
-                console.log(cred); 
+                //console.log(cred); 
             });
         }
         
@@ -104,7 +123,7 @@ const Chat = ({ location })=> {
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
-                alert.error("هذه الغرفة غير موجودة أو منتهية الصلاحية");
+                alert.error("Such room doesn't exist or expired");
                 history.push("/");
             }
         }
@@ -124,7 +143,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            console.log(users); 
+            //console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
@@ -172,14 +191,14 @@ const Chat = ({ location })=> {
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
-                    // لن اتصل بنفسي
+                    // won't call myself 
                     const otherUsersInVoice = (usersInVoice).filter((x) => x.id !== socket.id);  
                     
                     peers = (otherUsersInVoice).map((u) => {  // usersInVoice يؤثر على هذا
                         //اتصل بالجميع الموجودين بالفعل 
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        console.log(mediaConnection); 
+                        //console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
@@ -190,7 +209,7 @@ const Chat = ({ location })=> {
                             })
                         });
 
-                        //إذا قام أي شخص بإغلاق اتصال الوسائط 
+                        // if anyone closes media connection 
                         mediaConnection.on('close',()=>{
                             audio.remove();
                         })
@@ -206,9 +225,9 @@ const Chat = ({ location })=> {
         
         return ()=> {
 
-            //أغلق صوتي
+            //close my audio 
             if(myStream) stopBothVideoAndAudio(myStream); 
-            //أغلق المكالمات التي تلقيتها
+            //close the calls i received
             receivedCalls.forEach((stream) => stopBothVideoAndAudio(stream));
             
             if(peer) {  
@@ -216,7 +235,7 @@ const Chat = ({ location })=> {
                 myStream = null; 
                 console.log("disconnected"); 
 
-                //أغلق الاتصالات التي اتصلت بها
+                //close the connections I called 
                 if(peers) { 
                     peers.forEach((x)=>{
                         x.close();  
@@ -229,9 +248,9 @@ const Chat = ({ location })=> {
     },[join]); 
     
 
-    //تحتاج وظيفة لإرسال الرسائل 
+    //need function for sending messages 
     const sendMessage = (event) => { 
-        event.preventDefault(); // يمنع من تحديث المتصفح ، إرسال النموذج يعيد تحميل الصفحة
+        event.preventDefault(); // prevents from refreshing browser, form submit reloads the page  
         if(messageToSend) {
             socket.emit('user-message',messageToSend,()=>setMessage('')); 
         }
