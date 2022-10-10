@@ -272,6 +272,8 @@ const Chat = ({ location })=> {
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
                 <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
+                    <People usersOnline={usersInVoice} isVoice={true}/> 
+                    <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
             </div>
             <div className="inMobile bgsec">
                     ...scoll down for more
@@ -281,10 +283,7 @@ const Chat = ({ location })=> {
                     <InfoBarRight/> 
                     <People usersOnline={usersOnline} isVoice={false}/> 
                 </div>
-                <div className="container-down bgsec">  
-                    <People usersOnline={usersInVoice} isVoice={true}/> 
-                    <Voice usersInVoice={usersInVoice} joinVoice={joinVoice} leaveVoice={leaveVoice} join={join} setJoin={setJoin}/> 
-                </div>
+
             </div>
             
         </div>
