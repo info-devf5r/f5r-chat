@@ -1,29 +1,58 @@
+<!-- INSPIRED BY BRAD TRAVERSY CHAT APP -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet"> 
-    <script src="https://kit.fontawesome.com/73c8589a7a.js" crossorigin="anonymous"></script> 
-    <style>
-      body { 
-        font-family: 'Merriweather', serif;
-      }
-    </style>
-    
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>F5R2CHAT</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Chat App</title>
+	</head>
+	<body>
+		<div class="join-container">
+			<header class="join-header">
+				<h1><i class="far fa-comments"></i> Chat App </h1>
+			</header>
+			<main class="join-main">
+				<form action="chat.html">
+         
+
+					<div class="form-control">
+						<label for="username">اسم المستخدم</label>
+						<input
+							type="text"
+							name="username"
+							id="username"
+							placeholder="Enter username..."
+							required
+						/>
+					</div>
+					<div class="form-control">
+						<label for="room">قناة الدردشة</label>
+						<select name="room" id="room">
+							<option value="1">Tester1</option>
+							<option value="2">Tester2</option>
+							<option value="3">Tester3</option>
+							<option value="4">Tester4</option>
+							<option value="5">Tester5</option>
+							<option value="6">Tester6</option>
+							<option value="7">Tester7</option>
+							<option value="8">Tester8</option>
+							<option value="9">Tester9</option>
+							<option value="10">Tester10</option>
+						</select>
+					</div>
+          <div class="flex">
+            <button type="submit" class="btn">تسجيل الدخول إلى الدردشة</button>
+          </div>
+				</form>
+			</main>
+		</div>
+	</body>
 </html>
