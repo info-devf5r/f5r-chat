@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>RTC Voice Call</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+  <center id="wrapper">
+    <h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">عرض Nui RTC</font></font></h2>
+
+    <div id="askTurnOnMic" style="display: none;">
+      <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الرجاء قبول أذونات الكاميرا / الميكروفون</font></font></p>
+    </div>
+
+    <div id="micDenided" style="display: none;">
+      <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">خطأ: لا يمكن الاتصال بـ micro</font></font></p>
+    </div>
+
+    <div id="errInvalidLink" style="display: none;">
+      <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">خطأ: URL غير صالح</font></font></p>
+    </div>
+
+    <div id="hangupMsg" style="display: none;">
+      <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">المكالمة انتهت</font></font></p>
+      <br>
+      <br>
+      <br>
+      <br>
+      <small><span class="btn" onclick="window.location.reload()"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">أعد المحاولة</font></font></span></small>
+    </div>
+
+    <div id="mainApp" style=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      انسخ هذا الرابط وأرسله إلى شريكك: </font></font><br>
+      
+      <br>
+      <br>
+
+      <div id="videoView">
+        
+        
+      </div>
+
+      <p><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الحالة: </font></font></b><span id="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">في انتظار ...</font></font></span></p>
+      <p style="max-width: 480px;"><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        يرجى إبقاء علامة التبويب هذه مفتوحة
+
+        </font></font><br>
+        <span id="timer"></span>
+        <br>
+        <br>
+        <br>
+        <span class="btn" onclick="toggleMute()" id="toggleMuteBtn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">كتم صوت </font></font></span>
+        <span class="btn" onclick="hangup()" id="hangupBtn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">إنهاء المكالمة </font></font></span>
+        <span class="btn" onclick="toggleTheme()" id="toggleThemeBtn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Light theme </font></font></span>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <span id="debug"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الإصدار 1.0</font></font><br></span>
+      </small></p>
+    </div>
+  </center>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="utils.js"></script>
+  <script src="controls.js"></script>
+  <script src="script.js"></script>
+
+
+<div id="goog-gt-tt" class="skiptranslate" dir="rtl"><div style="padding: 8px;"><div><div class="logo"><img src="https://www.gstatic.com/images/branding/product/1x/translate_24dp.png" width="20" height="20" alt="Google ترجمة"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">النص الأصلي</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">المساهمة بترجمة أفضل</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div><div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body>
+</html>
