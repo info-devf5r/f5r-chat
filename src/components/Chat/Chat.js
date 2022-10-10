@@ -191,14 +191,14 @@ const Chat = ({ location })=> {
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
-                    // won't call myself 
+                    // لن اتصل بنفسي
                     const otherUsersInVoice = (usersInVoice).filter((x) => x.id !== socket.id);  
                     
-                    peers = (otherUsersInVoice).map((u) => {  // usersInVoice affects this 
-                        //call everyone already present 
+                    peers = (otherUsersInVoice).map((u) => {  // usersInVoice يؤثر على هذا
+                        //اتصل بالجميع الموجودين بالفعل 
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        //console.log(mediaConnection); 
+                        console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
@@ -209,7 +209,7 @@ const Chat = ({ location })=> {
                             })
                         });
 
-                        // if anyone closes media connection 
+                        //إذا قام أي شخص بإغلاق اتصال الوسائط 
                         mediaConnection.on('close',()=>{
                             audio.remove();
                         })
@@ -225,9 +225,9 @@ const Chat = ({ location })=> {
         
         return ()=> {
 
-            //close my audio 
+            //أغلق صوتي
             if(myStream) stopBothVideoAndAudio(myStream); 
-            //close the calls i received
+            //أغلق المكالمات التي تلقيتها
             receivedCalls.forEach((stream) => stopBothVideoAndAudio(stream));
             
             if(peer) {  
@@ -235,7 +235,7 @@ const Chat = ({ location })=> {
                 myStream = null; 
                 console.log("disconnected"); 
 
-                //close the connections I called 
+                //أغلق الاتصالات التي اتصلت بها
                 if(peers) { 
                     peers.forEach((x)=>{
                         x.close();  
@@ -248,9 +248,9 @@ const Chat = ({ location })=> {
     },[join]); 
     
 
-    //need function for sending messages 
+    //تحتاج وظيفة لإرسال الرسائل 
     const sendMessage = (event) => { 
-        event.preventDefault(); // prevents from refreshing browser, form submit reloads the page  
+        event.preventDefault(); // يمنع من تحديث المتصفح ، إرسال النموذج يعيد تحميل الصفحة
         if(messageToSend) {
             socket.emit('user-message',messageToSend,()=>setMessage('')); 
         }
