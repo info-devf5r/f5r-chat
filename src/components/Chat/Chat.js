@@ -269,7 +269,7 @@ const Chat = ({ location })=> {
     return (
         <div className="outerContainer bgprime">
             <div className="container bgsec">
-                <People usersOnline={usersInVoice} isVoice={true}/> 
+               // <People usersOnline={usersInVoice} isVoice={true}/> 
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
                 <Input setMessage={setMessage} sendMessage={sendMessage} messageToSend={messageToSend} /> 
