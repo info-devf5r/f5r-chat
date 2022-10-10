@@ -15,14 +15,14 @@ function TextChannel({ socket }) {
 
 
     const getMsgs = () => {
-        axios.get(`${process.env.REACT_APP_ROOM_URL}/${room}`).then(response => {
+        axios.get(`https://f5r-chat.herokuapp.com/${room}`).then(response => {
             const msgs = response.data.messageHistory;
             setMessageHistory(msgs);
         }).catch(e => console.log(e));
     }
 
     const postMsg = (msg) => {
-        axios.post(`${process.env.REACT_APP_ROOM_URL}/${room}`, msg).then(() => {
+        axios.post(`https://f5r-chat.herokuapp.com/${room}`, msg).then(() => {
             return;
         }).catch(e => console.log(e));
     }

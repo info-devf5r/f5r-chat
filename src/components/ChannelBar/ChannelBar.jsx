@@ -25,7 +25,7 @@ function ChannelBar({ socket }) {
     const peersRef = useRef([]);
 
     const newVoiceUser = () => {
-        axios.put(`${process.env.REACT_APP_ROOM_URL}/${room}/user`, { username: user.username, userID: user.userID })
+        axios.put(`https://f5r-chat.herokuapp.com/${room}/user`, { username: user.username, userID: user.userID })
             .then((response) => {
                 return;
             }).catch(e => console.log(e));
