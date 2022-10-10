@@ -38,7 +38,7 @@ const Join = ({location}) => {
     return (<div>
       <div>
         <input
-          placeholder="Your name"
+          placeholder="ادخل اسمك هنا"
           className="joinInput bgtert"
           type="text"
           value={name}
@@ -49,7 +49,7 @@ const Join = ({location}) => {
       </div>
       <div>
         <input
-          placeholder="Room"
+          placeholder="اسم او معرف الغرفة"
           className="joinInput mt-20 bgtert"
           value={room}
           type="text"
@@ -63,7 +63,7 @@ const Join = ({location}) => {
         to={`/chat?name=${name}&room=${room}`}
       >
         <button className="button mt-20 fontprime bgbutton" type="submit">
-          Join
+          انضم
         </button>
       </Link>
       <div style={{textAlign:"left", fontSize:"2rem"}} className="mt-20"> 
@@ -76,10 +76,10 @@ const Join = ({location}) => {
     return (
       <>
         <button className="button mt-20 fontprime bgbutton" type="submit" onClick = {()=>{toggle(3)}}>
-          Generate  Room
+          توليد الغرفة
         </button> 
         <button className="button mt-20 fontprime bgbutton" type="submit" onClick = {()=>{toggle(0)}}>
-          Join existing Room 
+           الانضمام إلى الغرفة الموجودة
         </button>
         <p className="helpbutton" onClick={ () => { toggle(1) } }>
           <i class="fa fa-question-circle" aria-hidden="true"></i>
