@@ -8,9 +8,9 @@ import Input from "../Input/Input";
 import Messages from "../Messages/Messages";
 import { useAlert } from "react-alert";
 
-// Right side components
-import InfoBarRight from "../rightSideComponents/InfobarRight/InfoBarRight"
-import People from "../rightSideComponents/People/People"; 
+// مكونات الجانب الأيمن
+//import InfoBarRight from "../rightSideComponents/InfobarRight/InfoBarRight"
+//import People from "../rightSideComponents/People/People"; 
 import Voice from "../rightSideComponents/Voice/Voice"
 
 import Peer from "peerjs"; 
@@ -30,7 +30,7 @@ function stopBothVideoAndAudio(stream) {
 }
 let cred = null; 
 
-// STUN/TURN servers for voice channel 
+//  خوادم STUN / TURN للقناة الصوتية
 const setCredObj = (twilioObj) => {
     cred = {
         config : {
@@ -64,7 +64,7 @@ const setCredObj = (twilioObj) => {
             credential: 'webrtc',
             username: 'webrtc'
         },  
-        //remove the below three objects if you are running locally without twilio 
+        //قم بإزالة العناصر الثلاثة أدناه إذا كنت تعمل محليًا بدون twilio
         {
             url: 'turn:global.turn.twilio.com:3478?transport=udp',
             username : twilioObj.username,
@@ -93,8 +93,8 @@ const Chat = ({ location })=> {
 
     const [ name, setName ] = useState('');
     const [ room, setRoom ] = useState(''); 
-    const [ messageToSend, setMessage ] = useState('');   // for sending message 
-    const [ messages, setMessages ] = useState([]); // for received message 
+    const [ messageToSend, setMessage ] = useState('');   // لإرسال الرسالة
+    const [ messages, setMessages ] = useState([]); //  للرسالة المستلمة
     const [ usersOnline, setUsersOnline ] = useState([]);
 
     const [ join,setJoin ] = useState(0); 
@@ -102,7 +102,7 @@ const Chat = ({ location })=> {
     const history = useHistory();
     const alert = useAlert();
     //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // the express server 
-    const ENDPOINT = "https://f5r-2.herokuapp.com"; // my deployed server 
+    const ENDPOINT = "https://f5r-2.herokuapp.com"; // خادمي المنشور
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
@@ -123,14 +123,14 @@ const Chat = ({ location })=> {
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {
-                alert.error("Such room doesn't exist or expired");
+                alert.error("هذه الغرفة غير موجودة أو منتهية الصلاحية");
                 history.push("/");
             }
         }
 
         checkRoomExists();
 
-        return () => { //component unmounting 
+        return () => { //تركيب المكون
             socket.emit('leave-voice',{name,room},() => {});
             socket.emit('disconnect');
             socket.off(); 
@@ -156,7 +156,7 @@ const Chat = ({ location })=> {
         socket.on('remove-from-voice',(user)=>{
             setUsersInVoice( usersInVoice =>usersInVoice.filter((x) => x.id !== user.id )); 
         });
-    },[]); // for received message 
+    },[]); // للرسالة المستلمة
 
     const onReceiveAudioStream = (stream) =>{ 
         console.log("receiving an audio stream"); 
@@ -178,7 +178,7 @@ const Chat = ({ location })=> {
                 peer = new Peer(socket.id, cred);  
                 console.log("Peer:", peer);
                 
-                //listen 
+                //استمع 
                 peer.on('call', (call)=>{
                     console.log("call receiving")
                     call.answer(mystream); 
@@ -191,7 +191,7 @@ const Chat = ({ location })=> {
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
-                    // won't call myself 
+                    // لن اتصل بنفسي
                     const otherUsersInVoice = (usersInVoice).filter((x) => x.id !== socket.id);  
                     
                     peers = (otherUsersInVoice).map((u) => {  // usersInVoice يؤثر على هذا
@@ -209,7 +209,7 @@ const Chat = ({ location })=> {
                             })
                         });
 
-                        // if anyone closes media connection 
+                        // إذا قام أي شخص بإغلاق اتصال الوسائط
                         mediaConnection.on('close',()=>{
                             audio.remove();
                         })
@@ -225,9 +225,9 @@ const Chat = ({ location })=> {
         
         return ()=> {
 
-            //close my audio 
+            //أغلق صوتي
             if(myStream) stopBothVideoAndAudio(myStream); 
-            //close the calls i received
+            //أغلق المكالمات التي تلقيتها
             receivedCalls.forEach((stream) => stopBothVideoAndAudio(stream));
             
             if(peer) {  
@@ -235,7 +235,7 @@ const Chat = ({ location })=> {
                 myStream = null; 
                 console.log("disconnected"); 
 
-                //close the connections I called 
+                // أغلق الاتصالات التي اتصلت بها
                 if(peers) { 
                     peers.forEach((x)=>{
                         x.close();  
@@ -248,9 +248,9 @@ const Chat = ({ location })=> {
     },[join]); 
     
 
-    //need function for sending messages 
+    //تحتاج وظيفة لإرسال الرسائل
     const sendMessage = (event) => { 
-        event.preventDefault(); // prevents from refreshing browser, form submit reloads the page  
+        event.preventDefault(); // يمنع من تحديث المتصفح ، إرسال النموذج يعيد تحميل الصفحة
         if(messageToSend) {
             socket.emit('user-message',messageToSend,()=>setMessage('')); 
         }

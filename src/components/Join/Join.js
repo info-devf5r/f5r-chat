@@ -91,22 +91,21 @@ const Join = ({location}) => {
   const InfoComponent = ()=> {
     return (<div className="helptext ">
       <p> 
-        <u>How to use</u> : 
+        <u>كيف تستعمل</u> : 
         <ul> 
-          <li>Generate a room ID by clicking generate room button</li>
-          <li>Click <i className="fa fa-share-alt" aria-hidden="true"></i> for sharing join link with friends.</li>
-          <li>Click <i className="fa fa-clone" aria-hidden="true"></i> for copying room ID</li>
-          <li>Join the room and study together using text and voice channels. No registration required. </li>
+          <li>قم بإنشاء معرف غرفة عن طريق النقر فوق زر إنشاء غرفة</li>
+          <li>انقر <i className="fa fa-share-alt" aria-hidden="true"></i> للمشاركة رابط الانضمام مع الأصدقاء.</li>
+          <li>انقر <i className="fa fa-clone" aria-hidden="true"></i> لنسخ معرف الغرفة</li>
+          <li>انضموا إلى الغرفة وادرسوا معًا باستخدام القنوات النصية والصوتية. لا يتطلب التسجيل.</li>
         </ul>
          
       </p> 
       <p>
-        <u>About</u> : The application aims to put text and voice channels on the same page, so 
-        that collaboration with friends while studying becomes easy. 
-      </p>
+        <u>حول</u>: يهدف التطبيق إلى وضع القنوات النصية والصوتية على نفس الصفحة لذا
+        يصبح هذا التعاون مع الأصدقاء أثناء الدراسة أمرًا سهلاً.       </p>
       <div style={ {display:"flex", justifyContent:"space-between", fontSize:"2rem"}}> 
         <span onClick={() => { toggle(2) }} style={{ marginRight:0, color:"#7289dA"}}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> </span>
-        <a style={{ color:"grey",fontSize:"1.5rem" }} target="blank" href="https://www.linkedin.com/in/sudheer-tripathi-384239147/"> Meet me </a>
+        <a style={{ color:"grey",fontSize:"1.5rem" }} target="blank" href="https://www.linkedin.com/in/sudheer-tripathi-384239147/">قابلني </a>
       </div>
     </div>)
   } 

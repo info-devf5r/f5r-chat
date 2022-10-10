@@ -15,7 +15,7 @@ const GenerateRoom = ({toggle}) => {
 
     const copy = ()=>{
         navigator.clipboard.writeText(roomId);
-        alert.success(`Copied`);
+        alert.success(`نسخ إلى الحافظة`);
     };
 
     useEffect(()=>{
@@ -31,7 +31,7 @@ const GenerateRoom = ({toggle}) => {
     },[state])
 
     const ShareCompnent = () => {
-        let myurl = `${process.env.REACT_APP_URL}/join?roomId=${roomId}`
+        let myurl = `https://f5r-2.herokuapp.com/join?roomId=${roomId}`
         let title = "Join my F5R2CHAT"
         return(
         <> 
