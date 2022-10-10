@@ -1,42 +1,35 @@
 {
-  "name": "frontend",
-  "version": "0.1.0", 
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.1.3",
-    "react": "^18.1.0",
-    "react-bootstrap": "^2.3.1",
-    "react-dom": "^18.1.0",
-    "react-router": "^6.3.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+  "name": "socket-io-chat-room-example",
+  "version": "0.0.1",
+  "description": "A sample chatroom using socket.io and Express",
+  "main": "server.js",
+  "engines": {
+    "node": ">=4.x.x"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "supervisor node server.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexanderbez/socket-io-chat-room-example.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [
+    "socket.io",
+    "express",
+    "chatroom"
+  ],
+  "author": "Alexander Bezobchuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alexanderbez/socket-io-chat-room-example/issues"
+  },
+  "homepage": "https://github.com/Alexanderbez/socket-io-chat-room-example#readme",
+  "dependencies": {
+    "app-root-path": "^1.0.0",
+    "express": "^4.13.3",
+    "moniker": "^0.1.2",
+    "morgan": "^1.6.1",
+    "socket.io": "^1.3.7"
   }
 }
