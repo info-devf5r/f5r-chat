@@ -19,14 +19,14 @@ function Welcome() {
             </div>
             <div className="box">
                 <div className="box__titles">
-                    <h1 className="box__title">مرحبا بكم في لايت الدردشة</h1>
-                    <h1 className="box__title">أنشئ غرفة دردشة وابدأ الحديث</h1>
+                    <h1 className="box__title">Welcome to lite chat</h1>
+                    <h1 className="box__title">Create a chat room and start talking</h1>
                 </div>
-                <button onClick={createRoom} className="box__btn">إنشاء غرفة</button>
+                <button onClick={createRoom} className="box__btn">create a room</button>
             </div>
             <div className="direct">
                 <img className="direct__icon" src={pointIcon} alt="point icon" />
-                <p className="direct__text">انقر هنا للانضمام إلى غرفة الدردشة</p>
+                <p className="direct__text">Click here to join a chat room</p>
             </div>
         </main>
     )

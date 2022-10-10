@@ -14,7 +14,7 @@ function UserBanner({ user, status }) {
 
 
     const getUserName = (id) => {
-        axios.get(`https://f5r-chat.herokuapp.com/${room}`).then((response) => {
+        axios.get(`${process.env.REACT_APP_ROOM_URL}/${room}`).then((response) => {
             let users = response.data.users;
             for (let user of users) {
                 if (user.userID === id) {

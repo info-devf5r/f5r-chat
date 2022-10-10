@@ -10,7 +10,7 @@ const getColorByName = (username) => {
 }
 
 const validateRoom = (room) => {
-    axios.get(`https://f5r-chat.herokuapp.com/${room}`).then(() => {
+    axios.get(`${process.env.REACT_APP_ROOM_URL}/${room}`).then(() => {
         return;
     }).catch((e) => {
         window.location.replace("/404");

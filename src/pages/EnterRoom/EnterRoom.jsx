@@ -12,7 +12,7 @@ function EnterRoom() {
             event.target.room.classList.add("box__input--invalid");
             return;
         }
-        axios.get(`https://f5r-chat.herokuapp.com/${event.target.room.value}`).then((response) => {
+        axios.get(`${process.env.REACT_APP_ROOM_URL}/${event.target.room.value}`).then((response) => {
             window.location.replace(`/room/${response.data._id}`);
         }).catch(e => {
             event.target.room.classList.add("box__input--invalid");

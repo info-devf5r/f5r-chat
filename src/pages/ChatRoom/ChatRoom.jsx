@@ -39,7 +39,7 @@ function ChatRoom() {
     const postNewUser = () => {
         if (user.userID && user.username) {
             // console.log("In post user condition");
-            axios.post(`https://f5r-chat.herokuapp.com/${room}/user`, user).then((response) => {
+            axios.post(`${process.env.REACT_APP_ROOM_URL}/${room}/user`, user).then((response) => {
                 // console.log("in post new user")
                 return;
             }).catch(e => console.log(e))
