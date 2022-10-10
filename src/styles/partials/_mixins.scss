@@ -1,0 +1,86 @@
+@use "./variables" as *;
+
+@mixin tablet {
+    @media (min-width: $tablet-width) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop-width) {
+        @content;
+    }
+}
+
+@mixin roomBtn {
+    background-color: $primary-color;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.73rem;
+    border: none;
+    font-family: $title-font;
+    font-size: 500;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: 0.2s;
+
+    width: 85%;
+    height: 3rem;
+
+
+
+    &:hover {
+        border-radius: 30px;
+    }
+
+}
+
+@mixin navBtn ($iconURL) {
+
+    background-image: url($iconURL);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+    margin: 0 0.5rem;
+    height: 35px;
+    width: 35px;
+
+    @include tablet {
+        height: 50px;
+        width: 50px;
+    }
+
+    &:hover {
+        border-radius: 30%;
+    }
+}
+
+@mixin avatar($size) {
+    height: $size;
+    min-width: $size;
+    border-radius: 50%;
+    background-image: url("../../assets/self.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+    border: 1px solid;
+}
+
+@mixin contactIcon($url) {
+    background-image: url($url);
+    height: 1.4rem;
+    width: 1.4rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    @include tablet {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}

@@ -1,0 +1,48 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+
+.notfound {
+    margin-top: -4rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &__img {
+        width: 18rem;
+
+        @include tablet {
+            width: 27rem;
+        }
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        padding-left: 2.1rem;
+        margin-top: -2rem;
+
+        @include tablet {
+            gap: 0.8rem;
+            margin-top: 0;
+            margin-bottom: -2rem;
+            padding-left: 3rem;
+        }
+    }
+
+    &__title {
+
+        @include tablet {
+            font-size: 3rem;
+        }
+    }
+
+    &__subtitle {
+        font-size: 1.2rem;
+    }
+}

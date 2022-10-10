@@ -1,0 +1,80 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+
+
+.box {
+    &__join {
+        margin: auto;
+        margin-top: 23vh;
+
+        @include tablet {
+            margin-top: 17vh;
+        }
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+        font-weight: 700;
+        font-size: 1.8rem;
+        line-height: 2.3rem;
+        gap: 1.2rem;
+        text-align: center;
+        font-family: $title-font;
+        text-shadow: 0.8px 1.5px $secondary-color;
+
+        @include tablet {
+            font-size: 2.3rem;
+        }
+    }
+
+    &__input {
+        border: none;
+        background-color: $primary-lighter;
+        border-radius: 5px;
+        background-image: url("../../assets/enter.svg");
+        background-repeat: no-repeat;
+        background-size: 2rem;
+        background-position: 97% center;
+        box-sizing: border-box;
+        padding: 0.9rem 1.5rem;
+        font-size: 1.5rem;
+
+        &:focus {
+            outline: $secondary-color 2px solid;
+        }
+
+        &--invalid {
+            animation: headShake;
+            animation-duration: 1.5s;
+            outline: $secondary-color 2.5px solid;
+        }
+    }
+}
+
+.direct--create {
+    display: flex;
+    flex-direction: column-reverse;
+    align-self: flex-end;
+    padding: 0 4rem 0.4rem 0;
+    align-items: center;
+    box-sizing: border-box;
+    animation: heartBeat;
+    animation-duration: 1.5s;
+    overflow: hidden;
+
+    @include tablet {
+        align-items: baseline;
+        align-self: baseline;
+        padding: 0 0 8.5rem 1.3rem;
+    }
+
+    &__icon {
+        transform: rotate(270deg);
+        max-width: 3rem;
+
+        @include tablet {
+            transform: none;
+        }
+    }
+}

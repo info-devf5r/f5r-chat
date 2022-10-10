@@ -1,0 +1,39 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+
+.message {
+    display: flex;
+    gap: 1rem;
+    border-bottom: dashed 1.5px $primary-light;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+
+    &__avatar {
+        @include avatar(40px);
+    }
+
+    &__content {
+        width: 100%;
+        gap: 1rem;
+
+        &--top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 40px;
+        }
+
+        &--bottom {
+            box-sizing: border-box;
+            padding-left: 1rem;
+        }
+    }
+
+    &__by {
+        font-weight: 600;
+    }
+
+    &__time {
+        color: grey;
+    }
+}

@@ -1,0 +1,111 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+@use "../../styles/partials/_reset.scss" as *;
+
+.channel {
+    background-color: $secondary-light;
+    height: 100%;
+    width: 3rem;
+    min-width: 3rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+        width: 15rem;
+        max-width: 12.5rem;
+    }
+
+    &__head {
+        display: flex;
+        min-height: 3rem;
+        align-items: center;
+        box-sizing: border-box;
+        border-bottom: 2px $primary-light solid;
+        align-items: center;
+        padding: 0 0.2rem;
+        justify-content: center;
+
+        @include tablet {
+            justify-content: space-between;
+            padding: 0 0.8rem;
+        }
+    }
+
+    &__welcome {
+        font-size: 0.7rem;
+        display: none;
+
+        @include tablet {
+            display: block;
+            font-size: 1rem;
+        }
+    }
+
+    &__share {
+        width: 1.4rem;
+        height: 1.4rem;
+        background-image: url("../../assets/share.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+
+        @include tablet {
+            width: 1.3rem;
+            height: 1.3rem;
+        }
+
+        &--tooltip {
+            background-color: $secondary-color;
+            margin: 0.6rem 0 0 1rem;
+            box-sizing: border-box;
+            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            position: fixed;
+        }
+    }
+
+    &__voice {
+        font-weight: 800;
+        font-size: 0.8rem;
+        margin-top: 0.8rem;
+        margin-left: 0.2rem;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+        text-shadow: 0.8px 1.5px $primary-light;
+        color: grey;
+        text-transform: uppercase;
+        text-shadow: 0.8px 1.5px $secondary-color;
+
+        @include tablet {
+            font-size: 1rem;
+            margin-left: 0.8rem;
+            background-image: url("../../assets/arrowsRight.svg");
+            background-repeat: no-repeat;
+            background-size: 0.9rem;
+            background-position: 0 center;
+            padding-left: 2rem;
+        }
+
+        &:hover {
+            text-decoration: underline 2px $secondary-color;
+        }
+    }
+
+    &__users {
+        max-width: 100%;
+        height: 100%;
+        max-height: 78vh;
+        gap: 1rem;
+        overflow: auto;
+    }
+
+    &__self {
+        margin-top: auto;
+        margin-bottom: 0;
+        display: flex;
+        padding: 1.5rem;
+        justify-content: space-between;
+    }
+}

@@ -1,0 +1,25 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+
+.banner {
+    width: 90%;
+    text-align: center;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 0.2rem 0;
+    background-color: $primary-lighter;
+    font-size: 0.8rem;
+    margin: auto;
+    font-style: italic;
+    box-shadow: 2px 2px $primary-light;
+
+    @include tablet {
+        font-size: 1rem;
+        width: 70%;
+    }
+
+    &__wrapper {
+        width: 100%;
+        display: flex;
+    }
+}

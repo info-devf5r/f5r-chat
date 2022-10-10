@@ -1,0 +1,66 @@
+@use "../../styles/partials/_variables.scss" as *;
+@use "../../styles/partials/_mixins.scss" as *;
+
+.nav {
+
+
+    background-color: $primary-light;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.3rem 0;
+
+
+    @include tablet {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+
+    &--bottom {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        @include tablet {
+            flex-direction: column;
+        }
+    }
+
+    &--top {
+        @extend .nav--bottom;
+    }
+
+    &__self {
+        @include navBtn("../../assets/self.svg");
+        background-size: 1.2rem;
+
+        @include tablet {
+            background-size: 1.8rem;
+        }
+    }
+
+    &__create {
+        @include navBtn("../../assets/add.svg");
+    }
+
+    &__join {
+        @include navBtn("../../assets/searchIcon.svg");
+        background-position: 0.58rem;
+        background-size: 85%;
+
+        @include tablet {
+            background-position: 0.8rem;
+        }
+    }
+
+    &__leave {
+        @include navBtn("../../assets/leaveRm.svg");
+        background-size: 75%;
+    }
+
+    &--active {
+        background-color: $primary-color;
+    }
+}
