@@ -14,12 +14,18 @@ const Voice = ( { joinVoice, leaveVoice, join, setJoin} ) => {
       }
   }
 
+  return (
+    <div className="voicebox">
+      <button className="voicebutton" onClick = { btnClick }> 
+        {  join ? 
+        <p>Leave Voice <i className="fas fa-2x fa-microphone-slash"></i></p> : <p>Join Voice <i className="fas fa-2x fa-microphone voiceicon"></i></p> } 
+      </button>
+    </div>
+  );
+};
+
 const Input = ({ setMessage, sendMessage, messageToSend }) => (
   <form className="form">
-        <button className="sendButton" onClick = { btnClick }> 
-        {  join ? 
-        <p><i className="fas fa-2x fa-microphone-slash"></i></p> : <p><i className="fas fa-2x fa-microphone voiceicon"></i></p> } 
-      </button>
     <input
       className="input" 
       type="text"
