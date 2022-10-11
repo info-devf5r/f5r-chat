@@ -1,58 +1,182 @@
-<!-- INSPIRED BY BRAD TRAVERSY CHAT APP -->
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-			crossorigin="anonymous"
-		/>
-		<link rel="stylesheet" href="css/style.css" />
-		<title>Chat App</title>
-	</head>
-	<body>
-		<div class="join-container">
-			<header class="join-header">
-				<h1><i class="far fa-comments"></i> Chat App </h1>
-			</header>
-			<main class="join-main">
-				<form action="chat.html">
-         
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>WebRTC</title>
+  </head>
 
-					<div class="form-control">
-						<label for="username">اسم المستخدم</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
-							required
-						/>
-					</div>
-					<div class="form-control">
-						<label for="room">قناة الدردشة</label>
-						<select name="room" id="room">
-							<option value="1">Tester1</option>
-							<option value="2">Tester2</option>
-							<option value="3">Tester3</option>
-							<option value="4">Tester4</option>
-							<option value="5">Tester5</option>
-							<option value="6">Tester6</option>
-							<option value="7">Tester7</option>
-							<option value="8">Tester8</option>
-							<option value="9">Tester9</option>
-							<option value="10">Tester10</option>
-						</select>
-					</div>
-          <div class="flex">
-            <button type="submit" class="btn">تسجيل الدخول إلى الدردشة</button>
-          </div>
-				</form>
-			</main>
-		</div>
-	</body>
+<body >
+  
+  <div id="first-view-container">
+    <div class="header-img" style="display:flex">
+      <img id='logo2' src = "assets/logo2a.png" alt="logo" id="logo">
+      <div class="header">
+        <nav>
+          <li><p>Fast , Secure & Easy to use. Create or Join a room & enjoy RTC!  </p></li>
+          <li><p>Room's size: 7 users.</p></li>
+        </nav>
+      </div>
+     
+    </div>
+  <div id="room-selection-container" class="centered">
+    <img src = "assets/logo.png" alt="logo" id="logo">
+     <nav id="menu-navigation">
+        <li id="create-room">Create Room</li>
+        <li id="join-room">Join Room</li>
+     </nav>
+     <div id="box">
+      <div id = "menu-div">
+        <label>Room Id </label> <br>
+        <input id="room-input" type="text" /><br><br>
+        <label>Username</label> <br>
+        <input id="user-id" type="text" /><br><br><br>
+        <button type="submit" id="connect-button" >CONNECT</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <div id="fullpage">
+    <img id="exit-img" src="assets/exit-img.png">
+
+    <a id="link"><img id="download-img" src="assets/download.png">
+    </a>
+
+    <div id="center-view">
+
+    </div>
+    <div id="bottomList-view">
+      <ul id="bottomList">
+
+      </ul>
+    </div>
+
+  </div>
+  <div id="video-chat-container" class="video-position" style="display: none">
+    <div id="header-highlighter"></div>
+    <div id="remote-video-container">
+
+    </div>
+    <div id="remote-video-container2">
+
+    </div>
+
+    <section id="bottom-section">
+
+      <div id="local-video-div">
+        <video id="local-video" autoplay="autoplay" muted="muted"></video>
+      </div>
+      <div id = 'profile'>
+        <div id="profile-user">
+          <img src = "/assets/user.png" style="width : 30x; height: 35px;">
+          <h4 id="Username">USERNAME</h4>
+
+        </div>
+
+
+
+        <div id="user-info">
+          <h5>Room ID</h5>
+          <h6 id="room-id"></h6>
+
+          <h5>Latency</h5>
+          <h6 id="latency"></h6>
+        </div>
+        <div id="voice-buttons-div">
+          <nav>
+            <li title="Mute/Unmute" id="mic"><img  src="/assets/mic-closed.png" style="width : 18px;
+              height: 23px;" alt="logo"/></li>
+            <li title="Deaf/UnDeaf" id="deaf"><img  src="/assets/deaf.png" style="width : 20px;
+              height: 22px; "alt="logo"/></li>
+            <li title="Disable camera" id="camera"><img  src="/assets/camera.png" style="width : 27px;
+              height: 22px; "alt="logo"/></li>
+          </nav>
+        </div>
+        <!-- <img  src="/assets/settings.png" style="width : 22px;
+        height: 22px; "alt="logo"/> -->
+      </div>
+
+
+
+      <div id="nav-and-menu">
+        <nav id="medium-view"></nav>
+        <div id="menu">
+          <nav>
+            <p id="profile-extra" onclick="changeColorMode()">
+              Switch to dynamic background
+            </p>
+            <li title="Disconnect" id="exit"><img src="/assets/exit.png" style="width : 15x;
+              height: 21px; " alt="logo"/></li>
+              <li title="Share screen" id="screenshare"><img src="/assets/screen-capture.png" style="width : 20px;
+                height: 22px; " alt="logo"/></li>
+              <li title="Fullscreen" id="fullscreen"><img src="/assets/fullscreen.png" style="width : 20px;
+              height: 22px; " alt="logo"/></li>
+          </nav>
+        </div>
+
+      </div>
+
+  </section>
+
+  </div>
+
+  <div id="aside-navigation">
+    <nav id="navigation" style="display:none">
+      <li title="Chat" id="chat-logo"><img  src="/assets/chat.png" alt="logo"/></li>
+      <li title="Show users" id="users-logo"><img  src="/assets/users-white.png" alt="logo"/></li>
+    </nav>
+  </div>
+
+  <div id="usersList" style="display:none">
+    <h3 >Participants</h3>
+    <ul id="participants"></ul>
+  </div>
+
+  <div id="chat" style="display:none">
+    <h3 >Chat</h3>
+      <div id = "chat-area">
+      </div>
+
+      <input id="file-input" type="file" style = 'display:none'>
+
+      <div id="mess">
+        <img  id="attach-file" src = "/assets/file.png" style="width : 30x; height: 30px;">
+        <input type="text" id="message-input" placeholder="Enter your message" required>
+        <img src = "assets/send.png" style="width : 25px;
+        height: 25px;" alt="logo" id="send-button">
+      </div>
+
+  </div>
+
+  <script>
+    var input = document.getElementById("message-input");
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+       event.preventDefault();
+       document.getElementById("send-button").click();
+      }
+    });
+
+    var input = document.getElementById("user-id");
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+       event.preventDefault();
+       document.getElementById("connect-button").click();
+      }
+    });
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://github.com/muaz-khan/DetectRTC/releases/download/1.4.1/DetectRTC.js"></script>
+  <!-- <script type="text/javascript" src="node_modules\jquery\src\jquery.js" > </script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="Constants.js"></script>
+  <script type="text/javascript" src="functions.js"></script>
+  <script type="text/javascript" src="client.js"></script>
+  <script type="text/javascript" src="buttons.js"></script>
+
+</body>
 </html>
