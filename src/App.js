@@ -1,55 +1,33 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage';
-import Resource from './Resource';
-import { useDispatch } from 'react-redux';
-import { useUser } from './api/useAuth';
-import PrivateRoute from './utils/PrivateRoute';
-import { setUser } from './store/features/authSlice';
-import Loader from './projectComponents/Loader';
+import React from "react"; 
 
-import useLocalStorage from 'use-local-storage';
+import { BrowserRouter as Router, Route } from "react-router-dom"; 
 
-import 'react-toastify/dist/ReactToastify.css';
+import Join from "./components/Join/Join";
+import Chat from "./components/Chat/Chat"; 
+import "./main.css"
 
-function App() {
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme, setTheme] = useLocalStorage(
-    'chatly-theme',
-    defaultDark ? 'dark' : 'light'
-  );
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const onSuccess = (data) => {
-    dispatch(setUser(data));
+const options = {
+    timeout: 5000,
+    position: positions.MIDDLE
+};
 
-    navigate('/');
-  };
-
-  const { isLoading } = useUser(onSuccess);
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  return (
-    <div data-theme={theme}>
-      <Routes>
-        <Route
-          path={Resource.Routes.HOME}
-          element={
-            <PrivateRoute>
-              <HomePage setTheme={setTheme} />
-            </PrivateRoute>
-          }
-        />
-
-        <Route path={Resource.Routes.AUTH} element={<AuthPage />} />
-      </Routes>
-    </div>
-  );
+const App = () => { 
+    
+    return ( 
+        <Provider template={AlertTemplate} {...options}>
+            <Router> 
+                <Route path="/" exact component={Join} />
+                <Route path="/join" exact component={Join} />
+                <Route path="/chat" exact component={Chat} /> 
+            </Router>
+        </Provider>
+    ); 
 }
 
-export default App;
+export default App; 
+
+/* User enters data in "/", that data is passed to "/chat" using query-strings" */ 
