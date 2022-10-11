@@ -45,7 +45,7 @@ const Chat = ({ location })=> {
     const alert = useAlert();
     
     // Server websocket endpoint 
-    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT;   
+    const ENDPOINT = "https://voice-f5r-server.herokuapp.com:443";   
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
@@ -62,7 +62,7 @@ const Chat = ({ location })=> {
         }
         
         const checkRoomExists = async() =>{
-            let result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/checkRoomExists/${room}`); 
+            let result = await axios.get(`https://voice-f5r-server.herokuapp.com:443/checkRoomExists/${room}`); 
             if(result.data && result.data.exists){
                 connectNow(); 
             } else {

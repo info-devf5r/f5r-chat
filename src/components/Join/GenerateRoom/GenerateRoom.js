@@ -20,7 +20,7 @@ const GenerateRoom = ({toggle}) => {
 
     useEffect(()=>{
         const getRoomId = async () =>{ 
-            let result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/generateRoomId`); 
+            let result = await axios.get(`https://voice-f5r-server.herokuapp.com:443/generateRoomId`); 
             setRoomId(result.data.roomId); 
             setState(2);
             return result; 
@@ -31,7 +31,7 @@ const GenerateRoom = ({toggle}) => {
     },[state])
 
     const ShareCompnent = () => {
-        let myurl = `${process.env.REACT_APP_URL}/join?roomId=${roomId}`
+        let myurl = `https://f5r-chat.vercel.app:443/join?roomId=${roomId}`
         let title = "Join my study room"
         return(
         <> 
