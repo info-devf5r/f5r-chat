@@ -1,0 +1,225 @@
+.AuthContainer {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  max-height: 100vh;
+  background-color: #f0f4f3;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 30px 0;
+}
+
+.UpBlob {
+  position: absolute;
+  top: 0;
+  right: 0;
+  animation: rotate 20s linear infinite forwards;
+}
+
+.DownBlob {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: rotate 20s linear infinite forwards;
+}
+
+.UpBlob img,
+.DownBlob img {
+  width: 350px !important;
+  height: 350px !important;
+}
+
+.AuthChild {
+  display: flex;
+  width: 65%;
+  max-width: 1000px;
+  z-index: 1;
+  max-height: 80vh;
+}
+
+.Sign {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px 0 0 10px;
+  flex: 2;
+  padding: 0 35px;
+  padding-bottom: 20px;
+  width: 100%;
+  overflow: auto;
+}
+
+.Sign.SignUp {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.Sign h4 {
+  font-size: 6em;
+  font-weight: 500;
+  color: #3aaf9f;
+  margin-bottom: 15px;
+}
+
+.AuthChild .SocialBtns {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.AuthChild span {
+  color: #3db697;
+  margin: 10px 0;
+  font-size: 1.3em;
+}
+
+.ForgotPassword {
+  font-size: 1.5em !important;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.AuthSide {
+  background-color: #4eafb7;
+  border-radius: 0 10px 10px 0;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  z-index: 1;
+}
+
+.AuthSide h4 {
+  color: white;
+  font-size: 2em;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.AuthSide img {
+  width: 100px;
+  height: 100px;
+}
+
+.InputContainer {
+  width: 90%;
+  padding: 0 30px;
+}
+
+.authFadeAppear {
+  transform: translateX(200px);
+}
+
+.authFadeAppearActive {
+  transform: translateX(0);
+  transition: all 1000ms ease-out;
+}
+
+.authFadeEnter {
+  transform: translateX(200px);
+}
+
+.authFadeEnterActive {
+  transform: translateX(0);
+  transition: all 1000ms ease-out;
+}
+
+.authFadeEnterDone {
+  transform: translateX(0);
+}
+
+.authFadeExit {
+  transform: translateX(200px);
+}
+
+.authFadeExitActive {
+  transform: translateX(0);
+  transition: all 1000ms ease-out;
+}
+
+@media (max-width: 1100px) {
+  .InputContainer.SignUpContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .AuthContainer {
+    overflow: auto;
+  }
+
+  .DownBlob,
+  .UpBlob {
+    animation: none;
+    display: none;
+  }
+
+  .AuthChild {
+    flex-direction: column;
+    height: auto;
+    width: 80%;
+    max-height: none;
+  }
+
+  .Sign {
+    border-radius: 0 0 10px 10px;
+  }
+
+  .AuthSide {
+    padding: 25px 0;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .InputContainer {
+    padding: 0 !important;
+  }
+
+  .InputContainer.SignUpContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .authFadeAppear {
+    transform: translateY(-100px);
+  }
+
+  .authFadeAppearActive {
+    transform: translateY(0);
+    transition: all 1000ms ease-out;
+  }
+
+  .authFadeEnter {
+    transform: translateY(-100px);
+  }
+
+  .authFadeEnterActive {
+    transform: translateY(0);
+    transition: all 1000ms ease-out;
+  }
+
+  .authFadeEnterDone {
+    transform: translateY(0);
+  }
+
+  .authFadeExit {
+    transform: translateY(-100px);
+  }
+
+  .authFadeExitActive {
+    transform: translateY(0);
+    transition: all 1000ms ease-out;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-360deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

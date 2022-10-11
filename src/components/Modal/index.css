@@ -1,0 +1,123 @@
+.SingleChatOverlay,
+.GroupChatOverlay,
+.FileOverlay,
+.VideoCallOverlay,
+.VoiceOverlay,
+.ProfileOverlay,
+.SettingOverlay,
+.GroupProfileOverlay {
+  inset: 0;
+  background: rgba(0, 0, 0, 0.51);
+  position: fixed;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+}
+
+.SingleChatModal,
+.GroupChatModal,
+.FileModal,
+.VideoCallModal,
+.VoiceModal,
+.ProfileModal,
+.SettingModal,
+.GroupProfileModal {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 300ms ease-in-out;
+  inset: 80px;
+  background: #ececec;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: 50%;
+  max-height: 80vh;
+  margin: auto;
+}
+
+.VideoCallModal {
+  /* width: fit-content; */
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.VoiceModal,
+.ProfileModal {
+  width: fit-content;
+}
+
+.SingleChatModal__after-open,
+.GroupChatModal__after-open,
+.FileModal__after-open,
+.VideoCallModal__after-open,
+.VoiceModal__after-open,
+.SettingModal__after-open,
+.ProfileModal__after-open,
+.GroupProfileModal__after-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.SingleChatModal__before-close,
+.GroupChatModal__before-close,
+.FileModal__before-close,
+.VideoCallModal__before-close,
+.VoiceModal__before-close,
+.SettingModal__before-close,
+.ProfileModal__before-close,
+.GroupProfileModal__before-close {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+/* @media (max-width: 768px) {
+  .AddOfficeModal {
+    width: unset;
+    height: unset;
+    inset: 40px;
+  }
+
+  .FilterModal {
+    margin-top: 50px !important;
+  }
+} */
+
+@media (max-width: 900px) {
+  .SingleChatModal,
+  .GroupChatModal,
+  .FileModal {
+    width: unset;
+    height: unset;
+    inset: 40px;
+  }
+
+  .GroupProfileModal {
+    width: 60%;
+  }
+}
+
+@media (max-width: 600px) {
+  .SingleChatModal,
+  .GroupChatModal,
+  .FileModal {
+    width: unset;
+    height: unset;
+    inset: 40px;
+  }
+
+  .GroupProfileModal {
+    width: 80%;
+  }
+}
+
+@media (max-width: 450px) {
+  .VideoCallModal {
+    width: fit-content;
+  }
+}

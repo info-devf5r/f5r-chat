@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.group {
+  display: flex;
+  margin-top: 25px;
+  align-items: center;
+}
+
+.group * {
+  margin: 0 10px;
+}

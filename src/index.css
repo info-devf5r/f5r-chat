@@ -1,0 +1,144 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --background: #ffffff;
+  --background-side: #fafafa;
+  --chatUserBg: #fdfdfd;
+  --input-bg: #fdfdfd;
+  --input-border: #adadad5f;
+  --text-primary: black;
+  --text-secondary: #9193a3;
+  --accent: #258c60;
+}
+
+[data-theme='dark'] {
+  --background: #323644;
+  --background-side: #272a37;
+  --chatUserBg: #323644;
+  --input-bg: #424656;
+  --input-border: #2473bc;
+  --text-primary: white;
+  --text-secondary: #9193a3;
+  --accent: #258c60;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #adadad;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+.sound-container {
+  width: fit-content;
+}
+
+.sound {
+  display: flex;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  overflow: hidden;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  width: 200px;
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: goldenrod;
+  margin-top: -5px;
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #ccc;
+}
+
+input[type='range'] {
+  /* fix for FF unable to apply focus style bug  */
+
+  /*required for proper track sizing in FF*/
+  width: 200px;
+}
+
+input[type='range']::-moz-range-track {
+  width: 200px;
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type='range']::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: goldenrod;
+}
+
+input[type='range']:focus::-moz-range-track {
+  background: #ccc;
+}
+
+.emoji-mart .emoji-mart-category-label span {
+  background-color: var(--background-side) !important;
+  /* color: var(--text-primary) !important; */
+  text-align: right !important;
+}
+
+.emoji-mart input {
+  border-color: var(--input-border) !important;
+}
+
+.emoji-mart .emoji-mart-scroll button:hover {
+  background: transparent !important;
+  color: transparent !important;
+}
+
+@media (max-width: 900px) {
+  input[type='range'] {
+    width: 100px;
+  }
+}

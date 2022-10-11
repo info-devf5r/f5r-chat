@@ -1,0 +1,51 @@
+:root {
+
+    --light1: #f9f9f9;
+    --light2: #f7f7f7;
+    --light3: #ececec;
+    --light4: #d4d4d4;
+    --light5: #909090;
+    --light6: #606060;
+    --light7: #0d0d0d;
+    --main: rgb(46, 125, 164);
+    --main-light: rgb(90, 159, 193);
+
+    --fos-red: #de3d81;
+    --fos-green: #3dde6e;
+
+    --goo-blu: rgb(46, 125, 164);
+    --goo-blu-t: rgba(46, 125, 164, 0.2);
+    --goo-blu-l: rgba(46, 125, 164, 0.05);
+    --goo-red: rgb(242, 99, 93);
+    --goo-red-t: rgba(242, 99, 93, 0.2);
+    --goo-red-l: rgba(242, 99, 93, 0.05);
+    --goo-yel: rgb(255, 224, 55);
+    --goo-yel-t: rgba(255, 224, 55, 0.2);
+    --goo-yel-l: rgba(255, 224, 55, 0.05);
+    --goo-gre: rgb(80, 195, 146);
+    --goo-gre-t: rgba(80, 195, 146, 0.2);
+    --goo-gre-l: rgba(80, 195, 146,0.05);
+
+    --blue: #3490dc;
+    --indigo: #6574cd;
+    --purple: #9561e2;
+    --pink: #f66d9b;
+    --red: #e3342f;
+    --orange: #f6993f;
+    --yellow: #ffed4a;
+    --green: #c5e842;
+    --teal: #4dc0b5;
+    --cyan: #6cb2eb;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #3490dc;
+    --secondary: #6c757d;
+    --success: #38c172;
+    --info: #6cb2eb;
+    --info-t: rgba(108, 178, 235, 0.2);
+    --warning: #ffed4a;
+    --danger: #e3342f;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}

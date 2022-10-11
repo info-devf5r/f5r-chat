@@ -1,0 +1,79 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.Loading-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5000;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.Loading-prompt {
+    margin: auto;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.Loading-prompt img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+}
+
+.Loading-prompt p {
+    font-size: 20px;
+    line-height: 20px;
+    margin-top: 30px;
+    color: #555;
+}
+
+.Layout {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f4f8f9;
+}
+
+.flex {
+    flex: 1;
+}
+
+.Button#fix-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
+
+select {
+    background-color: white;
+}
+
+::-webkit-scrollbar {
+    width: 30px;
+    /*border-radius: 15px;*/
+    background-color: var(--light1);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background-color: var(--light4);
+    /*background-image: url("../Image/pull.svg");*/
+    background-repeat: space;
+    background-position: center;
+    background-size: 70%;
+}

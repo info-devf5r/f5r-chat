@@ -1,72 +1,54 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import {
-  Container,
-  VStack,
-  Box,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  Flex,
-  Heading,
-  TabPanel,
-} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import Login from "../component/Auth/Login";
-import SignUp from "../component/Auth/SignUp";
-import { useGlobalContext } from "../context";
-import { useHistory } from "react-router-dom";
+import { useEffect } from 'react';
+import ChatContainer from '../projectComponents/HomePage/ChatContainer';
+import Sidebar from '../projectComponents/HomePage/Sidebar';
+import FileModal from '../projectComponents/Modal/File';
+import SingleChatModal from '../projectComponents/Modal/SingleChat';
+import GroupChatModal from '../projectComponents/Modal/GroupChat';
+import GroupProfileModal from '../projectComponents/Modal/GroupProfile';
+import VideoChatModal from '../projectComponents/Modal/VideoCall';
+import ProfileModal from '../projectComponents/Modal/Profile';
+import styles from '../styles/pages/Home.module.css';
+import VoiceModal from '../projectComponents/Modal/Voice';
+import SettingModal from '../projectComponents/Modal/Setting';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOnlineUsers } from '../store/features/userSlice';
+import { io } from 'socket.io-client';
+import { getSocket } from '../store/features/chatSlice';
 
-const HomePage = () => {
-  const { user } = useGlobalContext();
-
-  const history = useHistory();
+let socket;
+const HomePage = (props) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (user) history.push("/chats");
-  }, [history]);
+    socket = io(process.env.REACT_APP_SOCKET_ROUTE);
+    dispatch(getSocket(socket));
+    socket.emit('setup', user);
+  }, []);
+
+  useEffect(() => {
+    socket.on('onlineUsers', (data) => {
+      dispatch(getOnlineUsers(data));
+    });
+
+    socket.on('offlineUsers', (data) => {
+      dispatch(getOnlineUsers(data));
+    });
+  });
 
   return (
-    <>
-      <Flex w="100%" flexDirection="column">
-        <Flex boxShadow="lg" w="100%">
-          <Flex
-            as="nav"
-            p="2rem"
-            w="100%"
-            maxWidth="1200px"
-            justifyContent="flex-start"
-            margin="0 auto"
-          >
-            <Link to="/">
-              <Heading cursor="pointer">Chat App</Heading>
-            </Link>
-          </Flex>
-        </Flex>
-        <Container w="100%" justifyContent="center" maxW="xl">
-          <VStack mt="4rem" h="auto" w="100%" boxShadow="lg">
-            <Box color="black" width="100%" p={4} borderRadius="lg">
-              <Tabs isFitted size="md" outline="none">
-                <TabList mb="1rem">
-                  <Tab>Login</Tab>
-                  <Tab>Signup</Tab>
-                </TabList>
-
-                <TabPanels>
-                  <TabPanel>
-                    <Login />
-                  </TabPanel>
-                  <TabPanel>
-                    <SignUp />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-            </Box>
-          </VStack>
-        </Container>
-      </Flex>
-    </>
+    <main className={styles.container}>
+      <Sidebar />
+      <ChatContainer />
+      <SingleChatModal />
+      <GroupChatModal />
+      <FileModal />
+      <VideoChatModal />
+      <VoiceModal />
+      <ProfileModal />
+      <SettingModal setTheme={props.setTheme} />
+      <GroupProfileModal />
+    </main>
   );
 };
 

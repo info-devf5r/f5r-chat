@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.profileImg {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 2px solid var(--text-secondary);
+  border-radius: 50%;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.container h4 {
+  font-size: 18px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}

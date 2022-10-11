@@ -1,0 +1,65 @@
+*:not(sup) {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    vertical-align: baseline;
+    background: transparent;
+    user-select: none;
+    -moz-user-select: none;
+    /*position: relative;*/
+    box-sizing: border-box;
+    line-height: inherit;
+    font-family: farsi, serif;
+    font-size: inherit;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    font-size: 10px;
+    margin: 0;
+    direction: rtl;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+input, textarea, select, button {
+    font-family: inherit;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    user-select: text !important;
+    -moz-user-select: text !important;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+    overflow: unset;
+}
+
+/*::selection {*/
+/*    color: white;*/
+/*    background-color: var(--main-color1);*/
+/*}*/
+
+/*::-moz-selection {*/
+/*    color: white;*/
+/*    background-color: var(--main-color1);*/
+/*}*/

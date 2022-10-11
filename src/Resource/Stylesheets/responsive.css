@@ -1,0 +1,7 @@
+@import "responsive_default_size.css"; /* default */
+@import "responsive_6x_size.css"; /* 1200 */
+@import "responsive_5x_size.css"; /* 1000 */
+@import "responsive_4x_size.css"; /* 800 */
+@import "responsive_3x_size.css"; /* 600 */
+@import "responsive_2x_size.css"; /* 400 */
+@import "responsive_1x_size.css"; /* 200 */

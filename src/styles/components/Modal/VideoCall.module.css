@@ -1,0 +1,35 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* grid-template-rows: repeat(auto-fit, minmax(100px, 200px)); */
+  column-gap: 15px;
+  row-gap: 10px;
+  justify-content: center;
+  height: 100%;
+}
+
+.container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.answerGroup {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.callStatement {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-left: 10px;
+}

@@ -1,0 +1,68 @@
+﻿/**
+*
+*	Name:			IRAN Sans-Serif Font
+*	Version:		4.0
+*	Author:			Moslem Ebrahimi (moslemebrahimi.com)
+*	Created on:		Dec 25, 2012
+*	Updated on:		Dec 12, 2015
+*	Website:		http://fontiran.com
+*	Copyright:		Commercial/Proprietary Software
+--------------------------------------------------------------------------------------
+فونت های ایران سن سریف یک نرم افزار مالکیتی محسوب می شود. جهت آگاهی از قوانین استفاده از این فونت ها لطفا به وب سایت (فونت ایران دات کام) مراجعه نمایید
+--------------------------------------------------------------------------------------
+IRAN Sans-serif font are considered a proprietary software. To gain information about the laws regarding the use of these font, please visit www.fontiran.com
+--------------------------------------------------------------------------------------
+This set of font are used in this project under the license: (.....)
+--------------------------------------------------------------------------------------
+*	
+**/
+@font-face {
+    font-family: farsi;
+    font-style: normal;
+    font-weight: bold;
+    src: url('../Fonts/eot/IRANSansWeb.eot');
+    src: url('../Fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+    url('../Fonts/woff2/IRANSansWeb.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+    url('../Fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../Fonts/ttf/IRANSansWeb.ttf') format('truetype');
+}
+@font-face {
+    font-family: farsi;
+    font-style: normal;
+    font-weight: 500;
+    src: url('../Fonts/eot/IRANSansWebMedium.eot');
+    src: url('../Fonts/eot/IRANSansWebMedium.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+    url('../Fonts/woff2/IRANSansWebMedium.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+    url('../Fonts/woff/IRANSansWebMedium.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../Fonts/ttf/IRANSansWebMedium.ttf') format('truetype');
+}
+@font-face {
+    font-family: farsi;
+    font-style: normal;
+    font-weight: 300;
+    src: url('../Fonts/eot/IRANSansWebLight.eot');
+    src: url('../Fonts/eot/IRANSansWebLight.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+    url('../Fonts/woff2/IRANSansWebLight.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+    url('../Fonts/woff/IRANSansWebLight.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../Fonts/ttf/IRANSansWebLight.ttf') format('truetype');
+}
+@font-face {
+    font-family: farsi;
+    font-style: normal;
+    font-weight: 200;
+    src: url('../Fonts/eot/IRANSansWebUltraLight.eot');
+    src: url('../Fonts/eot/IRANSansWebUltraLight.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+    url('../Fonts/woff2/IRANSansWebUltraLight.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+    url('../Fonts/woff/IRANSansWebUltraLight.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../Fonts/ttf/IRANSansWebUltraLight.ttf') format('truetype');
+}
+@font-face {
+    font-family: farsi;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../Fonts/eot/IRANSansWeb.eot');
+    src: url('../Fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+    url('../Fonts/woff2/IRANSansWeb.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+    url('../Fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../Fonts/ttf/IRANSansWeb.ttf') format('truetype');
+}

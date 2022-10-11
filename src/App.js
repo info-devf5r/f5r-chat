@@ -1,98 +1,53 @@
-import { Route, Switch } from "react-router-dom";
-import "./App.css";
-import ForgotPassword from "./component/Auth/ForgotPassword";
-import ResetPassword from "./component/Auth/ResetPassword";
-import VerifyEmail from "./component/Auth/VerifyEmail";
-import ChatPage from "./Pages/ChatPage";
-import HomePage from "./Pages/HomePage";
-import ProtectedRoute from "./utils/ProtectedRoute";
-import {
-  Box,
-  SkeletonText,
-  Text,
-  SkeletonCircle,
-  Flex,
-  Button,
-} from "@chakra-ui/react";
-import { useGlobalContext } from "./context";
-import Header from "./component/Header";
-import Error from "./component/Error";
-import { useState } from "react";
-import VideoCall from "./component/chats/VideoCall";
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
+import HomePage from './pages/HomePage';
+import Resource from './Resource';
+import { useDispatch } from 'react-redux';
+import { useUser } from './api/useAuth';
+import PrivateRoute from './utils/PrivateRoute';
+import { setUser } from './store/features/authSlice';
+import Loader from './projectComponents/Loader';
+
+import useLocalStorage from 'use-local-storage';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const { fetchLoading } = useGlobalContext();
-  const [isOnline] = useState(window.navigator.onLine);
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage(
+    'chatly-theme',
+    defaultDark ? 'dark' : 'light'
+  );
 
-  if (!isOnline) {
-    return (
-      <Flex
-        w="100vw"
-        px={2}
-        alignItems={"center"}
-        h="100vh"
-        justifyContent={"center"}
-        flexDir={"column"}
-        textAlign={"center"}
-      >
-        <Text>Unfortunately, we are unable to connect to our server</Text>
-        <Text>Check that your connected to the internet!</Text>
-        <Button
-          onClick={() => window.location.reload()}
-          mt={5}
-          colorScheme={"blue"}
-        >
-          Reload
-        </Button>
-      </Flex>
-    );
-  }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  if (fetchLoading) {
-    return (
-      <Header>
-        <Box
-          maxW="500px"
-          mt="4rem"
-          w="100%"
-          padding="6"
-          boxShadow="lg"
-          bg="white"
-          mx="auto"
-        >
-          <SkeletonCircle size="10" />
-          <SkeletonText mt="4" noOfLines={4} spacing="4" />
-        </Box>
-      </Header>
-    );
+  const onSuccess = (data) => {
+    dispatch(setUser(data));
+
+    navigate('/');
+  };
+
+  const { isLoading } = useUser(onSuccess);
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
-    <div className="App">
-      {/* <ScrollToTop /> */}
-      <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        <ProtectedRoute path="/chats" exact>
-          <ChatPage />
-        </ProtectedRoute>
-        <ProtectedRoute path="/video" exact>
-          <VideoCall />
-        </ProtectedRoute>
-        <Route path="/user/verify-email" exact>
-          <VerifyEmail />
-        </Route>
-        <Route exact path="/user/reset-password">
-          <ResetPassword />
-        </Route>
-        <Route exact path="/forgot-password">
-          <ForgotPassword />
-        </Route>
-        <Route path="*">
-          <Error />
-        </Route>
-      </Switch>
+    <div data-theme={theme}>
+      <Routes>
+        <Route
+          path={Resource.Routes.HOME}
+          element={
+            <PrivateRoute>
+              <HomePage setTheme={setTheme} />
+            </PrivateRoute>
+          }
+        />
+
+        <Route path={Resource.Routes.AUTH} element={<AuthPage />} />
+      </Routes>
     </div>
   );
 }

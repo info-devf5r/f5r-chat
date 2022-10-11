@@ -1,0 +1,22 @@
+.container {
+  background-color: var(--background-side);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.chatlist {
+  overflow: auto;
+  flex: 1;
+  margin-top: 15px;
+}
+
+@media (max-width: 900px) {
+  .container {
+    transition: all 0.5s ease;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(400px);
+  }
+}
