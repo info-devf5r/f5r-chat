@@ -253,7 +253,7 @@ const Chat = ({ location })=> {
     
      
     return (
-        <div className="outerContainer bgprime">
+        <div className="container bgsec">
             <div className="container bgsec">
                 <InfoBar room={room}/> 
                 <Messages messages={messages} name={name}/>
