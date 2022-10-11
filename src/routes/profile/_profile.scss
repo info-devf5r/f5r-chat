@@ -1,0 +1,242 @@
+.profilePage {
+    position: relative;
+    margin: auto;
+    width: 75%;
+    height: calc(100vh);
+    .profileInfo {
+        position: relative;
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 20px;
+        top: 20px;
+        // height: 20%;
+        .top {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .avatarContainer {
+                width: 150px;
+                height: 150px;
+                position: relative;
+                .avatarInput {
+                    z-index: 1;
+                    width: inherit;
+                    position: absolute;
+                    width: 150px;
+                    height: 150px;
+                    text-indent: -999em;
+                }
+                .hide {
+                    display: flex;
+                    top: 0;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, 0.750);
+                    transition: .7s;
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 50%;
+                    align-items: center;
+                    p {
+                        font-size: 12px;
+                        font-weight: bold;
+                        text-align: center;
+                    }
+                    
+                }
+                .avatarInput:hover {
+                    cursor: pointer;
+                }
+                .avatar {
+                    height: 150px;
+                    width: 150px;
+                }
+            }
+            // .avatar {
+            //     height: 150px;
+            //     width: 150px;
+            // }
+            .topRight {
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+                .followBtn {
+                    position: absolute;
+                    right: 20px;
+                    padding: 5px;
+                    background-color: #b22222;
+                    border: none;
+                    color: white;
+                    border-radius: 10px;
+                }
+                .followBtn:hover {
+                    cursor: pointer;
+                }
+                .username {
+                    font-weight: 800;
+                    font-size: 30px;
+                }
+                .followersFollowing {
+
+                }
+            }
+        }
+        .showEmail {
+            color: rgb(0, 162, 255);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .bio {
+            display: flex;
+            flex-direction: column;
+            .bioTitle {
+                font-weight: 800;
+                font-size: 25px;
+                color: rgb(146, 146, 146);
+                font-variant: small-caps;
+            }
+        }
+    }
+}
+
+.profile {
+    width: 75%;
+    height: 20%;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    .topContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .baseContainer {
+            display: flex;
+            height: 100px;
+            .avatarContainer {
+                width: 100px;
+                height: 100px;
+                position: relative;
+                .avatarInput {
+                    z-index: 1;
+                    width: inherit;
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    text-indent: -999em;
+                }
+                .hide {
+                    display: flex;
+                    top: 0;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, 0.750);
+                    transition: .7s;
+                    position: absolute;
+                    height: 100%;
+                    border-radius: 50%;
+                    align-items: center;
+                    p {
+                        font-size: 12px;
+                        font-weight: bold;
+                        text-align: center;
+                    }
+                    
+                }
+                .avatarInput:hover {
+                    cursor: pointer;
+                }
+                .avatar {
+                    
+                }
+            }
+            .testImg {
+                background-color: green;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+            .usernameContainer {
+                margin-left: 30px;
+                margin-top: auto;
+                margin-bottom: auto;
+                .username {
+                    font-size: 20px;
+                    font-weight: 800;
+                }
+                .userIdContainer {
+                    display: flex;
+                    .copyId {
+                        text-decoration: underline;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        display: flex;
+                        
+                    }
+                    .helpIconUserId {
+                        color: rgb(125, 125, 125);
+                        margin: 0;
+                        margin-left: 5px;
+                        align-self: center;
+                    }
+                }
+                
+                .copyMessage {
+                    position: absolute;
+                }
+            }
+        }
+        .followersFollowing {
+            float: right;
+            width: 200px;
+            display: flex;
+            justify-content: space-evenly;
+            .text {
+                padding: 10px;
+                background-color: #333333;
+                border-radius: 10px;
+            }
+            .text:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .editableItem {
+        position: relative;
+        top: 10px;
+        height: 50px;
+        .itemTitle {
+            font-variant: small-caps;
+        }
+        .showEmail {
+            color: rgb(0, 162, 255);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        p {
+            position: relative;
+            left: 20px;
+        }
+        .editBtn {
+            background-color: #797979;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            border: none;
+            border-radius: 10px;
+            width: 50px;
+            height: 30px;
+            color: white;
+            float: right;
+            align-self: center;
+            cursor: pointer;
+            transition: all .3s;
+        }
+        .editBtn:hover {
+            background-color: #5f5d5d;
+        }
+    }
+}

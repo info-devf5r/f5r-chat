@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.chatContainer {
+    display: flex;
+    justify-content: space-around;
+    height: calc(100vh - 44px);
+    .menu {
+        flex: 1.5;
+        border-right: 1px solid white;
+        .menuWrapper {
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            height: 100%;
+            .searchInput {
+                display: flex;
+                align-self: center;
+                width: 90%;
+                padding: 10px 0;
+                border: none;
+                border-bottom: 1px solid gray;
+                background: none;
+                color: white;
+            }
+            .searchInput::placeholder {
+                color: white;
+            }
+            .searchInput:focus {
+                outline: none;
+            }
+        }
+        
+    }
+    .box {
+        flex: 6;
+        width: 100%;
+        // border-right: 1px solid white;
+        .boxWrapper {
+            display: flex;
+            flex-direction: column;
+            .chatBoxTop {
+                height: 100%;
+                overflow-y: scroll;
+                scroll-behavior: auto;
+                .noMessages {
+                    display: flex;
+                    position: relative;
+                    top: 20px;
+                    padding: 20px;
+                    justify-content: center;
+                    margin: auto;
+                    width: 50%;
+                    background-color: rgb(36, 36, 36);
+                    border-radius: 10px;
+                    .text {
+                        color: rgb(136, 136, 136);
+                        text-align: center;
+                    }
+                }
+            }
+            .chatBoxBottom {
+                position: static;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                // margin-top: 5px;
+                .chatInputContainer {
+                    position: relative;
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+                    .chatInput {
+                        width: 100%;
+                        font-size: 15px;
+                        padding: 15px;
+                        resize: none;
+                        background: none;
+                        color: rgb(75, 75, 75);
+                        border-radius: 15px;
+                        border: 2px solid rgb(189, 189, 189);
+                        margin: 5px;
+                        transition: .3s;
+                    }
+                    .chatInput:focus {
+                        outline: none;
+                        border: 2px solid rgb(6, 165, 6);
+                    }
+
+                    .chatInputEmojiSelector {
+                        position: absolute;
+                        right: 1.5%;
+                        color: rgb(149, 149, 149) !important;
+                        transition: .3s;
+                    }
+                    .chatInputEmojiSelector:hover {
+                        color: rgb(206, 206, 0) !important;
+                        transform: scale(1.2) rotate(-30deg);
+                        cursor: pointer;
+                    }
+                }
+                
+                .chatSubmit {
+                    width: 80px;
+                    height: 50px;
+                    border: none;
+                    border-radius: 10px;
+                    transition: .3s;
+                    margin-bottom: 5px;
+                }
+            }
+            .noConv {
+                position: relative;
+                text-align: center;
+                color: rgb(136, 136, 136);
+                top: 20px;
+                font-size: 40px;
+            }
+        }
+    }
+    .online {
+        flex: 1.5;
+        width: 20%;
+    }
+
+    .menuWrapper, .boxWrapper, .onlineWrapper {
+        height: 100%;
+    }
+}
+
+// SCROLLBAR
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #afafaf;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(117, 117, 117);
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
