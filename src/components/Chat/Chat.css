@@ -9,8 +9,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 100px;
-  height: 99%;
+  border-radius: 8px;
+  height: 100%;
   width: 100%;
 }
 .container-right {
@@ -18,44 +18,44 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  height: 0%;
-  width: 000%;
+  height: 80%;
+  width: 35%;
 }
 .container-up {
   border-radius: 4px;
-  height: 0%;
-  width: 0%;
+  height: 48%;
+  width: 100%;
 }
 .container-down {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 4px;
-  height: 0%;
-  width: 0%;
+  height: 48%;
+  width: 100%;
 }
 
 .inMobile { 
   display: none; 
   padding: 5px 10px; 
   margin-top: 10px; 
-  width: 0vw; 
+  width: 100vw; 
   color:grey
 }
 
 
 @media (min-width: 320px) and (max-width: 480px) {
   .outerContainer {
-    height: 0%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 0vh;
+    height: 150vh;
   }
 
   .container {
-    width: 0%;
-    height: 0vh;
+    width: 100%;
+    height: 85vh;
   }
   
   .inMobile { 
