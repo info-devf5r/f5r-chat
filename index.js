@@ -1,93 +1,189 @@
-const express = require('express');
+var express = require('express');
+var socket = require('socket.io');
+var PeerServer = require('peer').PeerServer;
+var path = require('path')
+var bcrypt = require('bcryptjs')
+const User = require('./Schemas/user');
+const Chat = require('./Schemas/chat');
+var Room = require('./Schemas/room')
 
-//Setting up our app
-const app = express();
-const server = require('http').createServer(app);
-const path = require('path');
+//App
+var userRouter = require('./Routers/user');
+var roomRouter = require('./Routers/room');
+var chatRouter = require('./Routers/chat');
+var vidRouter = require('./Routers/video');
 
-//Creating socket io websocket connection server
-const io = require('socket.io')(server);
-const port = process.env.PORT || 3000
+const cors = require('cors');
 
+var mongoose= require('mongoose');
+mongoose.connect("mongodb+srv://VIRAT:17prt24st@cluster0.m144i.mongodb.net/Video_App?retryWrites=true&w=majority",{ useNewUrlParser: true,useUnifiedTopology: true });
 
-//Specifying the static folder for our app
-app.use(express.static(path.join(__dirname, 'public')));
+var app = express();
+app.options('*', cors());
+app.use(express.json());
+app.use(cors());
 
-//Getting our login page on load
-app.get('/', (req,res)=>{
-    res.sendFile(__dirname + '/public/login.html')
-})
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+    next();
+});
+const port = process.env.PORT || 4000;
+var server = app.listen(port,function(){
+    console.log("listening to 4000");
+});
 
-//Storing the users info in here
-users = []
+app.use(express.static(path.join(__dirname, 'build')));
 
-//////////////////All socket functions//////////////////
-io.on('connection', socket =>{
-    
-    //When a user joins a room
-    socket.on('join-room', userData=>{
-        const userInfo = {id: socket.id, username: userData.username, room: userData.room}
-        users.push(userInfo)
+app.use(userRouter);
+app.use(roomRouter);
+app.use(chatRouter);
+app.use(vidRouter);
 
-        //Joining the specified room
-        socket.join(userData.room)
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
-        //Notify that a user has joined..
-        socket.broadcast.to(userData.room).emit('new-user', userData.username)
-
-        //Emit the current room-name
-        io.to(userData.room).emit('current-room', userData.room)
-
-        //Sending the list of online people
-        var online_people = users.filter(user=> user.room === userData.room)
-        io.to(userData.room).emit('online-people-list', online_people)
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+function getColor(){
+    return 'rgb('+getRandomInt(10,240)+','+getRandomInt(10,240)+','+getRandomInt(10,240)+')';
+}
+const io = socket(server);
+const addChat = async(id,roomID,msg)=>{
+    try{
+        const user = await User.findOne({_id:id})
+        if(!user)
+            throw new Error('U r not authorized..');
+        const room = await Room.findOne({id:roomID})
+        if(!room)
+            throw new Error('No such rooms..');
+        var chat = new Chat({ownedBy:id,roomId:roomID,message:msg,owner:user.username});
+        await chat.save()
+        console.log('add chat ...',chat);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+io.on('connection',function(socket){
+    socket.on('video-selected',function({item,roomID,startedBy}){
+        socket.broadcast.to(roomID).emit('video-selected',{...item,startedBy});
     })
-
-    //Broadcast the sent message to all the people in the room
-    socket.on('send-message', msg=>{
-        const user = users.find(user=> user.id === socket.id)
-        socket.broadcast.to(user.room).emit('receive-message',{ username: user.username, message: msg })
+    socket.on('any-video-selected',function(roomID){
+        var k = Array.from(io.sockets.adapter.rooms.get(roomID))
+        if(k[0]!=socket.id)
+            io.to(k[0]).emit('any-video-selected',socket.id)
     })
-
-    socket.on('disconnect', ()=>{
-
-        //Getting the user who has left the chat and removing it from our users list
-        var user = users.find(user=> user.id === socket.id)
-
-        for(var i=0; i < users.length; i++){
-            if (users[i] === user){
-                users.splice(i, 1)
-            }
-        }
-
-        if (user){
-            //Notifying everyone in the room that the person has left
-            socket.broadcast.to(user.room).emit('leave', user.username)
-
-            //Updating the list of online people
-            var online_people = users.filter(person=> person.room === user.room)
-            io.to(user.room).emit('online-people-list', online_people)
-        }
-
-
+    socket.on('yes-video-selected',function ({vidUrl,to}) {
+        io.to(to).emit('yes-video-selected',vidUrl)
     })
+    socket.on("join room", async({roomID,type,id,mode}) => {
+        socket.join(roomID)
+        socket.roomId = roomID;
+        socket.userId = id;
+        console.log('join room running',socket.id,io.sockets.adapter.rooms.get(roomID))
+        var k = Array.from(io.sockets.adapter.rooms.get(roomID))
+        k = k.filter(p => p!=socket.id);
+        socket.broadcast.to(roomID).emit('duplicate check',{id})
 
-    socket.on('typing', TorF=>{
-        const user = users.find(user=>user.id === socket.id)
-
-        //If someone is typing
-        if(TorF==true){
-            socket.broadcast.to(user.room).emit('Someone-typing', user.username)
+        if(type == 'help'){
+            console.log(socket.id)
+            socket.broadcast.to(roomID).emit('all users', {users:[socket.id],mode});
         }
+        else
+            io.to(socket.id).emit("all users",k);
+        
+    });
 
-        //If nobody is typing
+    socket.on("sending signal", payload => {
+        io.to(payload.userToSignal).emit('user joined', { signal: payload.signal, callerID: payload.callerID,user:payload.user,vid:payload.vid });
+    });
+    socket.on('help',payload=>{
+        console.log('on help :',payload.callerID)
+        io.to(payload.id).emit('all users', {users:[payload.callerID]});
+    })
+    socket.on("returning signal", payload => {
+        io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id,user:payload.user });
+    });
+
+    socket.on("join room file", async({roomID,type}) => {
+        socket.join(roomID)
+        socket.roomId = roomID;
+        console.log('join room file running',socket.id)
+        var k = Array.from(io.sockets.adapter.rooms.get(roomID))
+        k = k.filter(p => p!=socket.id);
+        if(type == 'help')
+            socket.broadcast.to(roomID).emit('all users file', [socket.id]);
         else{
-            socket.broadcast.to(user.room).emit('nobody-typing')
+            console.log('summa running...');
+            io.to(socket.id).emit("all users file",k);
         }
+    });
+
+    socket.on("sending signal file", payload => {
+        io.to(payload.userToSignal).emit('user joined file', { signal: payload.signal, callerID: payload.callerID,user:payload.user,vid:payload.vid });
+    });
+    socket.on("returning signal file", payload => {
+        io.to(payload.callerID).emit('receiving returned signal file', { signal: payload.signal, id: socket.id,user:payload.user });
+    });
+    socket.on('video end file',roomID => {
+        socket.broadcast.to(roomID).emit('video end file')
+    })
+    socket.on('disconnect', async() => {
+        console.log('disconnect...',socket.roomId,socket.userId);
+        if(socket.userId){
+            const user = await User.findOne({_id:socket.userId})
+            user.currentRoom = '';
+            user.save()
+        }
+        socket.broadcast.to(socket.roomId).emit("user left",socket.id)
+    });
+
+    socket.on('request',function({roomID}){
+        if(io.sockets.adapter.rooms.get(roomID).size>1)
+            io.to(io.sockets.adapter.rooms.get(roomID).values().next().value).emit('req');
+         
+    });
+    socket.on('request-file',function({id}){
+        io.to(id).emit('req')
+    })
+    socket.on('vid',function(data){
+        console.log('vid running...',io.sockets.adapter.rooms.get(data.roomID));
+        socket.broadcast.to(data.roomID).emit('begin',data);
+    });
+    socket.on('update-player',function(data){
+        socket.broadcast.to(data.roomID).emit('update-player',data);
+    })
+    socket.on('play',function(data){
+        socket.broadcast.to(data.roomID).emit('play',{});
+    });
+    socket.on('pause',function(data){
+        // console.log("pause node running...");
+        socket.broadcast.to(data.roomID).emit('pause',{});
+    })
+    socket.on('skip',function(data){
+        socket.broadcast.to(data.roomID).emit('skip',data)
+    })
+    socket.on('rf',function(data){
+        socket.broadcast.to(data.roomID).emit('rf',data)
+    })
+    socket.on('end',function(data){
+        socket.broadcast.to(data.roomID).emit('end',{});
+    })
+    socket.on('plbck',function(data){
+        socket.broadcast.to(data.roomID).emit('plbck',data);
+    })
+    socket.on('send-chat', async(data)=>{
+        // console.log(data)
+        await addChat(data.id,data.roomID,data.msg);
+        socket.broadcast.to(data.roomID).emit('rec-chat',{...data,color:getColor()});
     })
 })
 
 
-
-//Having the server to listen on the specified port
-server.listen(port, ()=>console.log(`Listening on http://localhost:${port}`))

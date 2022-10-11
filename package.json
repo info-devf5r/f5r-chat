@@ -1,15 +1,27 @@
 {
-  "name": "instachat",
+  "name": "socketio",
   "version": "1.0.0",
-  "description": "Realtime chat app node server",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node index.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Garv",
+  "keywords": [
+    "me"
+  ],
+  "author": "me",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "socket.io": "^2.4.0"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.0",
+    "nodemon": "^2.0.6",
+    "path": "^0.12.7",
+    "peer": "^0.6.0",
+    "socket.io": "^3.0.3",
+    "validator": "^13.5.1"
   }
 }
