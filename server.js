@@ -1,236 +1,138 @@
-require("dotenv").config();
-const config = require("./config");
-const client = require("twilio")(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_SECRET
-);
+// Serves up index.html, dist/*, socket.io and plugins!
 
-// var Twilio = require("twilio");
-// var client = new Twilio(
-//   process.env.TWILIO_ACCOUNT_SID,
-//   process.env.TWILIO_API_SECRET,
-//   { accountSid: process.env.TWILIO_ACCOUNT_SID }
-// );
-
-const { resolve } = require("path");
-const stripe = require("stripe")(process.env.STRIP_SECRET_KEY);
-
-const express = require("express");
-const bodyParser = require("body-parser");
-const pino = require("express-pino-logger")();
-const { chatToken, videoToken, voiceToken } = require("./tokens");
-const http = require("http");
-const cors = require("cors");
-const socketio = require("socket.io");
-const {
-  addUser,
-  removeUser,
-  getUser,
-  getUsersInRoom,
-  addDrinkOrder,
-  getAllDrinkOrders,
-  removeDrinksPerUser,
-} = require("./socketio/users");
-//setting up the server
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
-
-app.use(cors());
-const PORT = process.env.PORT || 3001;
-
-app.use(express.static("."));
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(pino);
-
-const sendTokenResponse = (token, res) => {
-  res.set("Content-Type", "application/json");
-  res.send(
-    JSON.stringify({
-      token: token.toJwt(),
-    })
-  );
+var options = { // defaults
+	http: false,
+	ip: "0.0.0.0",
+	port: 9001,
+	plugin: [],
 };
 
-const calculateOrderAmount = (tipAmount) => {
-  return parseFloat(tipAmount * 100.0);
-};
+var getopts = require("node-getopt").create([
+	['', 'http', 'Disable SSL'],
+	['', 'ip=', 'Set IP'],
+	['', 'port=', 'Set port'],
+	['', 'watch', 'Recompile assets on file modification'],
+	['', 'plugin=ARG+', 'Add "connect-style" plugins from ./lib'],
+	['h', 'help', '']
+]).bindHelp();
+var opt = getopts.parseSystem();
 
-app.post("/create-payment-intent", async (req, res) => {
-  const { tipAmount } = req.body;
+if (opt.argv.length > 0) {
+	console.error("ERROR: Unexpected argument(s): " + opt.argv.join(', '));
+	process.stdout.write(getopts.getHelp());
+	process.exit(1);
+}
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(tipAmount),
-    currency: "usd",
-  });
+// Merge opts into options
+for (var attrname in opt.options) { options[attrname] = opt.options[attrname]; }
 
-  res.json({
-    clientSecret: paymentIntent.client_secret,
-  });
+var fs = require('fs'),
+	// url = require('url'),
+	path = require('path');
+
+var server_opts = {};
+var connect = require('connect')();
+var server = require(options.http ? 'http' : 'https');
+var watcher;
+
+if (!options.http) {
+	try {
+		server_opts = {
+			key: fs.readFileSync(path.resolve('keys/privatekey.pem')),
+			cert: fs.readFileSync(path.resolve('keys/certificate.pem'))
+		};
+	}
+	catch (err) {
+		console.warn("WARNING: failed to find valid SSL keys, falling back to fake-keys..");
+		server_opts = {
+			key: fs.readFileSync(path.join(__dirname, 'node_modules/rtcmulticonnection-v3/fake-keys/privatekey.pem')),
+			cert: fs.readFileSync(path.join(__dirname, 'node_modules/rtcmulticonnection-v3/fake-keys/certificate.pem'))
+		};
+	}
+		// HTTP Strict Transport Security. (keep using SSL for at least a year)
+		// if (!options.http)
+		// 	response.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+
+	// Setup HTTP-redirect server.
+	require('http').createServer(function(req, res) {
+		res.writeHead(301, { "Location": "https://" + req.headers.host + req.url });
+		res.end();
+	}).on('error', function(err) {
+		console.warn("WARNING: unable to start http-redirect server. GOT:", err.toString());
+	}).listen(80);
+
+}
+
+var app = server.createServer(server_opts, connect).
+	listen(options.port, options.ip, function() {
+		var addr = app.address();
+		console.log("Server listening at", (options.http ? "http://" : "https://" ) + addr.address + ":" + addr.port);
 });
 
-app.get("/", (req, res) => {
-  res.send("server is running");
+app.on('error', function(err) {
+	console.error('ServerError:', err.code);
+	process.exit(1);
 });
 
-app.get("/api/greeting", (req, res) => {
-  const name = req.query.name || "World";
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+
+
+
+// Add signaling server - Copied from github.com/muaz-khan/RTCMultiConnection/server.js
+require('rtcmulticonnection-v3/Signaling-Server.js')(app, function(socket) {
+	try {
+		var params = socket.handshake.query;
+
+		// "socket" object is totally in your own hands!
+		// do whatever you want!
+
+		// in your HTML page, you can access socket as following:
+		// connection.socketCustomEvent = 'custom-message';
+		// var socket = connection.getSocket();
+		// socket.emit(connection.socketCustomEvent, { test: true });
+
+		if (!params.socketCustomEvent) {
+			params.socketCustomEvent = 'custom-message';
+		}
+
+		socket.on(params.socketCustomEvent, function(message) {
+			try {
+				socket.broadcast.emit(params.socketCustomEvent, message);
+			} catch (e) {}
+		});
+	} catch (e) {}
 });
 
-app.get("/chat/token", (req, res) => {
-  const identity = req.query.identity;
-  const token = chatToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// HTTP Strict Transport Security. (keep using SSL for at least a year)
+if (!options.http) {
+	connect.use(function(req, res, next) {
+		res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+		next();
+	});
+}
 
-app.post("/chat/token", (req, res) => {
-  const identity = req.body.identity;
-  const token = chatToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// Load file_server
+options.plugin.push('file_server');
 
-app.get("/video/token", (req, res) => {
-  const identity = req.query.identity;
-  const room = req.query.room;
-  const token = videoToken(identity, room, config);
-  sendTokenResponse(token, res);
-});
+// Load plugins
+for (var i in options.plugin) {
+	try { // load module from local lib.
+		connect.use(require(path.join(__dirname, 'lib', options.plugin[i])));
+	} catch(err)	{
+		if (err.code !== 'MODULE_NOT_FOUND') throw err;
+		// load the module from './lib/'
+		connect.use(require(path.join(path.resolve('lib'), options.plugin[i])));
+	}
+}
 
-app.post("/video/token", (req, res) => {
-  const identity = req.body.identity;
-  const room = req.body.room;
-  const token = videoToken(identity, room, config);
-  sendTokenResponse(token, res);
-});
+// --Watch
+if (options.watch) {
+	watcher = require('child_process').spawn('webpack', ['--watch', '--colors']);
 
-app.get("/voice/token", (req, res) => {
-  const identity = req.body.identity;
-  const token = voiceToken(identity, config);
-  sendTokenResponse(token, res);
-});
+	watcher.stdout.on('data', function(data) {
+		console.log(data.toString());
+	});
 
-app.post("/voice/token", (req, res) => {
-  const identity = req.body.identity;
-  const token = voiceToken(identity, config);
-  sendTokenResponse(token, res);
-});
-
-//get the inprogress rooms avalible
-app.get("/rooms/:roomName", (req, res) => {
-  let roomName = req.params.roomName;
-  client.video
-    .rooms(roomName)
-    .participants.list({ status: "connected" }, (err, participants) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      res.send(participants);
-    });
-});
-
-//setting up a socket
-io.on("connection", (socket) => {
-  console.log("We have a new connection");
-  socket.on("join", ({ userName, roomName }, callback) => {
-    const { error, user } = addUser({ id: socket.id, userName, roomName });
-    // console.log("this is the user", user);
-    if (error) return callback(error);
-
-    socket.broadcast.to(user.room).emit("message", {
-      user: "Chatbot",
-      text: `${user.name} joined ${room}`,
-    });
-
-    socket.join(user.room);
-
-    io.to(user.room).emit("roomData", {
-      users: getUsersInRoom(user.room),
-    });
-
-    io.to(user.room).emit("allDrinkOrders", {
-      userOrders: getAllDrinkOrders(user.room),
-    });
-
-    callback();
-  });
-
-  // socket.on("sendMessage", (message, callback) => {
-  //   const user = getUser(socket.id);
-  //   io.to(user.room).emit("message", { user: user.name, text: message });
-  //   callback();
-  // });
-
-  socket.on("makingDrink", ({ userName, roomName }) => {
-    // console.log("making a drink", userName, roomName);
-    removeDrinksPerUser(socket.id);
-    io.to(roomName).emit("allDrinkOrders", {
-      userOrders: getAllDrinkOrders(roomName),
-    });
-  });
-
-  socket.on("drinkOrder", ({ userName, roomName, drinkID }) => {
-    // console.log("drink order", userName, roomName, drinkID);
-    const newOrder = addDrinkOrder({
-      id: socket.id,
-      userName,
-      roomName,
-      drinkID,
-    });
-
-    io.to(newOrder.room).emit("newOrder", {
-      newOrder,
-    });
-
-    io.to(newOrder.room).emit("allDrinkOrders", {
-      userOrders: getAllDrinkOrders(newOrder.room),
-    });
-  });
-
-  socket.on("disconnectWhenLoggingOut", () => {
-    // console.log("hey discconecting");
-    const user = removeUser(socket.id);
-    // console.log("hey i am being disconected", user);
-    removeDrinksPerUser(socket.id);
-    if (user) {
-      // console.log("user", user);
-      io.to(user.room).emit("message", {
-        user: "Chatbot",
-        text: `${user.name} disconnected`,
-      });
-      io.to(user.room).emit("roomData", {
-        room: user.room,
-        users: getUsersInRoom(user.room),
-      });
-      io.to(user.room).emit("allDrinkOrders", {
-        userOrders: getAllDrinkOrders(user.room),
-      });
-    }
-  });
-
-  socket.on("disconnect", () => {
-    const user = removeUser(socket.id);
-    console.log("hey i am being disconected", user);
-    removeDrinksPerUser(socket.id);
-    if (user) {
-      console.log("user", user);
-      io.to(user.room).emit("message", {
-        user: "Chatbot",
-        text: `${user.name} disconnected`,
-      });
-      io.to(user.room).emit("roomData", {
-        room: user.room,
-        users: getUsersInRoom(user.room),
-      });
-      io.to(user.room).emit("allDrinkOrders", {
-        userOrders: getAllDrinkOrders(user.room),
-      });
-    }
-  });
-});
-
-server.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+	watcher.stderr.on('data', function(data) {
+		console.log(data.toString());
+	});
+}

@@ -1,0 +1,54 @@
+
+#ChatPanel {
+	flex-basis: 100%;
+	border: 2px solid red;
+
+	display: flex;
+	flex-direction: column;
+
+	> ul {
+		flex: 2;
+		padding: 5px;
+		overflow-x: hidden;
+
+		> li {
+			list-style: none;
+			word-break: break-all;
+
+			.username {
+				color: grey;
+
+				&:after {
+					content: ':';
+				}
+			}
+
+			.timestamp {
+				display: none;
+			}
+		}
+	}
+
+	/* === Bottom === */
+
+	/* mostly taken from emojionearea */
+	.emojione {
+		font-size: inherit;
+		height: 2ex;
+		width: 2.1ex;
+		min-height: 20px;
+		min-width: 20px;
+		margin: -.2ex .15em .2ex;
+		line-height: normal;
+		vertical-align: middle;
+		max-width: 100%;
+		top:0;
+	}
+
+	.emojionearea-editor {
+		box-sizing: content-box;
+		min-height: 1.4em;
+		max-height: 4em;
+	}
+
+}
