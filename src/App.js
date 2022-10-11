@@ -1,109 +1,99 @@
-import Chat from "./chat/chat";
-import Home from "./home/home";
-import { isEmpty } from 'lodash'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.scss";
-import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { AmplifyAuthenticator, AmplifySignUp } from '@aws-amplify/ui-react'
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
-import * as Config from './config';
-
-const socket = io(Config.SOCKET_SERVER);
-function Appmain(props) {
-  return (
-    <React.Fragment>
-      <Chat
-        username={props.match.params.username}
-        roomname={props.match.params.roomname}
-        socket={socket}
-        sessionID={props.sessionID}
-      />
-    </React.Fragment>
-  );
-}
-
-
+import { Route, Switch } from "react-router-dom";
+import "./App.css";
+import ForgotPassword from "./component/Auth/ForgotPassword";
+import ResetPassword from "./component/Auth/ResetPassword";
+import VerifyEmail from "./component/Auth/VerifyEmail";
+import ChatPage from "./Pages/ChatPage";
+import HomePage from "./Pages/HomePage";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import {
+  Box,
+  SkeletonText,
+  Text,
+  SkeletonCircle,
+  Flex,
+  Button,
+} from "@chakra-ui/react";
+import { useGlobalContext } from "./context";
+import Header from "./component/Header";
+import Error from "./component/Error";
+import { useState } from "react";
+import VideoCall from "./component/chats/VideoCall";
 
 function App() {
-  const [authState, setAuthState] = useState();
-  const [authData, setAuthData] = useState({});
-  const [sessionID, setSessionID] = useState();
+  const { fetchLoading } = useGlobalContext();
+  const [isOnline] = useState(window.navigator.onLine);
 
-  useEffect(() => {
-    const lsSessionID = localStorage.getItem("sessionID");
-    if (lsSessionID) {
-      setSessionID(lsSessionID);
-    }
-
-    socket.on("session", ({ sessionID, userID }) => {
-      setSessionID(sessionID);
-      localStorage.setItem("sessionID", sessionID);
-    });
-
-    onAuthUIStateChange((nextAuthState, authData) => {
-      if (authData && authData.attributes && nextAuthState === AuthState.SignedIn) {
-        socket.auth = Object.assign({}, socket.auth, {
-          username: authData.attributes.given_name,
-          userId: authData.username
-        });
-        socket.connect();
-
-        setAuthState(nextAuthState);
-        setAuthData(authData);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (sessionID && authState === AuthState.SignedIn) {
-      socket.disconnect();
-      socket.auth = { sessionID: sessionID, username: socket.auth.given_name, userId: socket.auth.username };
-      socket.connect();
-    }
-  }, [sessionID, authState]);
-
-  const options = {
-    position: positions.BOTTOM_CENTER,
-    timeout: 5000,
-    offset: '10px',
-    // you can also just use 'scale'
-    transition: transitions.SCALE
+  if (!isOnline) {
+    return (
+      <Flex
+        w="100vw"
+        px={2}
+        alignItems={"center"}
+        h="100vh"
+        justifyContent={"center"}
+        flexDir={"column"}
+        textAlign={"center"}
+      >
+        <Text>Unfortunately, we are unable to connect to our server</Text>
+        <Text>Check that your connected to the internet!</Text>
+        <Button
+          onClick={() => window.location.reload()}
+          mt={5}
+          colorScheme={"blue"}
+        >
+          Reload
+        </Button>
+      </Flex>
+    );
   }
 
-  return authState === AuthState.SignedIn && !isEmpty(authData) ? (
+  if (fetchLoading) {
+    return (
+      <Header>
+        <Box
+          maxW="500px"
+          mt="4rem"
+          w="100%"
+          padding="6"
+          boxShadow="lg"
+          bg="white"
+          mx="auto"
+        >
+          <SkeletonCircle size="10" />
+          <SkeletonText mt="4" noOfLines={4} spacing="4" />
+        </Box>
+      </Header>
+    );
+  }
+
+  return (
     <div className="App">
-      <Router>
-        <AlertProvider template={AlertTemplate} {...options}>
-          <div className="App">
-            <Switch>
-              <Route path="/" exact>
-                <Home user={authData} />
-              </Route>
-              <Route path="/chat/:roomname/:username"
-                render={(props) => {
-                  return <Appmain {...props} user={authData} sessionID={sessionID} />
-                }} />
-            </Switch>
-          </div>
-        </AlertProvider>
-      </Router>
+      {/* <ScrollToTop /> */}
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <ProtectedRoute path="/chats" exact>
+          <ChatPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/video" exact>
+          <VideoCall />
+        </ProtectedRoute>
+        <Route path="/user/verify-email" exact>
+          <VerifyEmail />
+        </Route>
+        <Route exact path="/user/reset-password">
+          <ResetPassword />
+        </Route>
+        <Route exact path="/forgot-password">
+          <ForgotPassword />
+        </Route>
+        <Route path="*">
+          <Error />
+        </Route>
+      </Switch>
     </div>
-  ) : (
-    <AmplifyAuthenticator>
-      <AmplifySignUp
-        slot="sign-up"
-        formFields={[
-          { type: "username" },
-          { type: "password" },
-          { type: "email" },
-          { type: "family_name", label: "Last Name *", required: true },
-          { type: "given_name", label: "First Name *", required: true },
-        ]}
-      />
-    </AmplifyAuthenticator>
   );
 }
 
