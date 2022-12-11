@@ -100,7 +100,7 @@ const Chat = ({ location })=> {
 
     //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_SERVER;   // the express server 
     //const ENDPOINT = "https://116.88.240.174:5000" //process.env.REACT_APP_API_ENDPOINT_REAL; // my deployed server 
-    const ENDPOINT =  "https://server.devf5r.com/"
+    const ENDPOINT =  "http://server.devf5r.com/"
 
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
